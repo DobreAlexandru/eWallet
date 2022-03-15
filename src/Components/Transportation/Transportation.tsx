@@ -80,10 +80,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function Transportation() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); // Open swiper
   const [items, setItems] = useState(categories);
   const { user } = useAuth() as any;
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState([]); // Tickets already in wallet
 
   const getDB = async () => {
     const docRef = doc(db, "users", user.uid);

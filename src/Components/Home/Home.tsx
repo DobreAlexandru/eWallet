@@ -3,7 +3,7 @@ import { Container, Typography, Grid } from "@mui/material";
 import TextTransition, { presets } from "react-text-transition";
 import TechStack from "./TechStack";
 
-const texts = ["ID card", "passport", "GreenPass", "documents", "bus tickets"];
+const texts = ["ID card", "passport", "documents", "bus tickets"];
 
 const Home = () => {
   const [index, setIndex] = React.useState(0);
