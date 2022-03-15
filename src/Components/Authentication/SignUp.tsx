@@ -1,20 +1,21 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  Alert,
+  Link as MLink,
+  Container,
+  Divider,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { Alert } from "@mui/material";
-import { Link as MLink } from "@mui/material";
-import Container from "@mui/material/Container";
 import { useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Divider } from "@mui/material";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");

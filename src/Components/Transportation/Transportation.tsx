@@ -1,16 +1,21 @@
 import * as React from "react";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import {
+  Box,
+  Typography,
+  SwipeableDrawer,
+  Grid,
+  Container,
+  Paper,
+  IconButton,
+} from "@mui/material";
 import DashboardItem from "../Dashboard/DashboardItem/DashboardItem";
 import TrainIcon from "@mui/icons-material/Train";
 import TrainOutlinedIcon from "@mui/icons-material/TrainOutlined";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFilledOutlined";
 import { Reorder } from "framer-motion";
-import { Grid, Container } from "@mui/material";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { doc, getDoc, Timestamp, updateDoc } from "firebase/firestore";
@@ -19,10 +24,8 @@ import { db } from "../../Firebase/config";
 import QRCode from "react-qr-code";
 import { useEffect } from "react";
 import SwipeUpIcon from "@mui/icons-material/SwipeUp";
-import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { arrayRemove } from "firebase/firestore";
-import { Paper } from "@mui/material";
 
 const drawerBleeding = 56;
 

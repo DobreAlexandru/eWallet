@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { Container, Button, Box, Typography, Alert } from "@mui/material";
+import {
+  Container,
+  Button,
+  Box,
+  Typography,
+  Alert,
+  IconButton,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 import QRCode from "react-qr-code";
 import { v4 as uuid } from "uuid";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "../Contexts/AuthContext";
 import { db } from "../../Firebase/config";
 import SwipeLeftIcon from "@mui/icons-material/SwipeLeft";
-import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
-
-import { Paper } from "@mui/material";
 
 const items = [
   {
