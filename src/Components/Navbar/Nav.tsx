@@ -1,12 +1,15 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  MenuItem,
+  Menu,
+  Container,
+  Button,
+} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Container, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import Avatar from "@mui/material/Avatar";
