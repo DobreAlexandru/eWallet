@@ -1,9 +1,8 @@
-import * as React from "react";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
-  CssBaseline,
   TextField,
   Link as MLink,
   Grid,
@@ -13,19 +12,17 @@ import {
   Container,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useAuth } from "../Contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useAuth, AuthType } from "../Contexts/AuthContext";
 
-export default function SignIn() {
+const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signIn } = useAuth() as any;
+  const { signIn } = useAuth() as AuthType;
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setError("");
 
     try {
@@ -38,7 +35,6 @@ export default function SignIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -102,4 +98,6 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignIn;

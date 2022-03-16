@@ -36,15 +36,16 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import firebase from "firebase/auth";
 
 const Input = styled("input")({
   display: "none",
 });
 
-const DocumentsTable = ({ dbKey }: any) => {
-  const { user } = useAuth() as any;
-  const [data, setData] = useState([]) as any;
-  const [currentItem, setCurrentItem] = useState() as any;
+const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
+  const { user } = useAuth() as { user: firebase.User };
+  const [data, setData] = useState([]);
+  const [currentItem, setCurrentItem] = useState({ name: "", download: "" });
   const [open, setOpen] = React.useState(false);
   const storage = getStorage();
 
@@ -120,7 +121,7 @@ const DocumentsTable = ({ dbKey }: any) => {
   useEffect(() => {
     getDB();
     setData([]);
-    setCurrentItem();
+    setCurrentItem({ name: "", download: "" });
   }, [dbKey]);
 
   return (

@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import { useState, FormEvent } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  StripeElements,
+  Stripe,
+  StripeCardElement,
+  StripeCardNumberElement,
+} from "@stripe/stripe-js/types/stripe-js";
 import axios from "axios";
 import {
   Container,
@@ -11,25 +17,32 @@ import {
   CircularProgress,
   Paper,
 } from "@mui/material";
+import SwipeLeftIcon from "@mui/icons-material/SwipeLeft";
 import QRCode from "react-qr-code";
 import { v4 as uuid } from "uuid";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { useAuth } from "../Contexts/AuthContext";
+import { useAuth, AuthType } from "../Contexts/AuthContext";
 import { db } from "../../Firebase/config";
-import SwipeLeftIcon from "@mui/icons-material/SwipeLeft";
 import { Link } from "react-router-dom";
+
+type itemType = {
+  key: string;
+  name: string;
+  price: number;
+  description: string;
+};
 
 const items = [
   {
     key: "#singlemetro",
     name: "singleMetro",
-    price: 100,
+    price: 120,
     description: "Single Metro Trip",
   },
   {
     key: "#monthlymetro",
     name: "monthlyMetro",
-    price: 1000,
+    price: 1200,
     description: "Monthly Metro Pass",
   },
   {
@@ -52,21 +65,23 @@ const PaymentForm = () => {
   const [error, setError] = useState("");
   const [uniqueID, setUniqueID] = useState("");
   const [loading, setLoading] = useState(false);
-  const stripe = useStripe() as any;
-  const elements = useElements() as any;
-  const { user } = useAuth() as any;
-  const key = window.location.hash; // Using different window hashes for each item
-  const item = items.find((i) => i.key === key) as any;
-  const date = new Date(); // Generating an expiry date for each ticket, one month from purchase
+  const stripe = useStripe() as Stripe;
+  const elements = useElements() as StripeElements;
+  const { user } = useAuth() as AuthType;
+  const key = window.location.hash as string; // Using different window hashes for each item
+  const item = items.find((i) => i.key === key) as itemType;
+  const date = new Date() as Date; // Generating an expiry date for each ticket, one month from purchase
 
   date.setMonth(date.getMonth() + 1);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
-      card: elements.getElement(CardElement),
+      card: elements.getElement(CardElement) as
+        | StripeCardElement
+        | StripeCardNumberElement,
     });
 
     if (!error) {
@@ -86,7 +101,7 @@ const PaymentForm = () => {
         );
 
         if (response.data.success) {
-          const docRef = doc(db, "users", user.uid);
+          const docRef = doc(db, "users", user!.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
           const randomID = uuid();
           setUniqueID(randomID);
           console.log("Successfull payment");
@@ -102,7 +117,7 @@ const PaymentForm = () => {
       } catch (error) {}
     } else {
       setOpenError(true);
-      setError(error.message);
+      setError(error.message as string);
     }
   };
 

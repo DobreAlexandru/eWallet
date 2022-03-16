@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState, FormEvent } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -13,22 +14,19 @@ import {
   Divider,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useState } from "react";
-import { useAuth } from "../Contexts/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useAuth, AuthType } from "../Contexts/AuthContext";
 
-export default function SignUp() {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
-  const { signUp } = useAuth() as any;
+  const { signUp } = useAuth() as AuthType;
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setError("");
 
     try {
@@ -131,4 +129,6 @@ export default function SignUp() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignUp;

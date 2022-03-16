@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import { auth } from "../../Firebase/config";
 import {
   createUserWithEmailAndPassword,
@@ -9,15 +15,35 @@ import {
   sendPasswordResetEmail,
   updatePassword,
   updateProfile,
+  User,
+  Auth,
 } from "firebase/auth";
 import { db } from "../../Firebase/config";
 import { doc, setDoc } from "firebase/firestore";
 
-const AuthContext = createContext({});
+export type AuthType = {
+  user: User | null;
+  signUp: (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) => void;
+  signIn: (email: string, password: string) => void;
+  logOut: () => void;
+  forgotPassword: (auth: Auth, email: string) => void;
+  resetPassword: (user: User, newPassword: string) => void;
+};
+const AuthContext = createContext<AuthType | undefined>(undefined);
 
-export default function AuthContextProvider({ children }: { children: any }) {
-  const [user, setUser] = useState({}) as any;
+export default function AuthContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [user, setUser] = useState<User | null>(null);
 
+  // Triggers when auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -69,10 +95,10 @@ export default function AuthContextProvider({ children }: { children: any }) {
     );
   }
 
-  function forgotPassword(auth: any, email: string) {
+  function forgotPassword(auth: Auth, email: string) {
     sendPasswordResetEmail(auth, email);
   }
-  function resetPassword(user: any, newPassword: string) {
+  function resetPassword(user: User, newPassword: string) {
     updatePassword(user, newPassword);
   }
 
@@ -83,15 +109,21 @@ export default function AuthContextProvider({ children }: { children: any }) {
   function logOut() {
     return signOut(auth);
   }
-  const value = {
-    user,
-    signIn,
-    signUp,
-    logOut,
-    forgotPassword,
-    resetPassword,
-  };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        signIn,
+        signUp,
+        logOut,
+        forgotPassword,
+        resetPassword,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
