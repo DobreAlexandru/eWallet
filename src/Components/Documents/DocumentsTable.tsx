@@ -173,8 +173,8 @@ const DocumentsTable = ({ dbKey }: any) => {
                         </IconButton>
 
                         <Typography variant="body1">
-                          {item.name.length > 12
-                            ? `${item.name.slice(0, 12)}...`
+                          {item.name.length > 8
+                            ? `${item.name.slice(0, 8)}...`
                             : item.name}
                         </Typography>
                         <IconButton
