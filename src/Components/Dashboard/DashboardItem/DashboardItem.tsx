@@ -1,9 +1,19 @@
-import { Typography, Grid } from "@mui/material";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { useMotionValue, Reorder } from "framer-motion";
+import { Grid, Typography } from '@mui/material';
+import { SvgIconProps } from '@mui/material';
+import { motion } from 'framer-motion';
+import { Reorder, useMotionValue } from 'framer-motion';
+import { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
-const DashboardItem = ({ item }: { item: any }) => {
+export type ItemType = {
+  name: string;
+  icon: ReactElement<SvgIconProps>;
+  link: string;
+  color: string;
+  hash: string;
+};
+
+const DashboardItem = ({ item }: { item: ItemType }) => {
   const y = useMotionValue(0);
 
   return (
@@ -15,10 +25,10 @@ const DashboardItem = ({ item }: { item: any }) => {
               item
               xs={12}
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "grab",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'grab',
               }}
             >
               {item.icon}
@@ -27,16 +37,16 @@ const DashboardItem = ({ item }: { item: any }) => {
               item
               xs={12}
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <Typography
                 style={{
-                  textDecoration: "none",
-                  color: "#F1DAC4",
-                  textAlign: "center",
+                  textDecoration: 'none',
+                  color: '#F1DAC4',
+                  textAlign: 'center',
                 }}
                 gutterBottom
                 variant="h6"
@@ -47,9 +57,9 @@ const DashboardItem = ({ item }: { item: any }) => {
                     hash: item.hash,
                   }}
                   style={{
-                    textDecoration: "none",
-                    color: "#F1DAC4",
-                    textAlign: "center",
+                    textDecoration: 'none',
+                    color: '#F1DAC4',
+                    textAlign: 'center',
                   }}
                 >
                   {item.name}

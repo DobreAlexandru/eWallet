@@ -1,33 +1,34 @@
 import {
+  Auth,
+  User,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  updatePassword,
+  updateProfile,
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import {
+  ReactNode,
   createContext,
   useContext,
   useEffect,
   useState,
-  ReactNode,
-} from "react";
-import { auth } from "../../Firebase/config";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  updatePassword,
-  updateProfile,
-  User,
-  Auth,
-} from "firebase/auth";
-import { db } from "../../Firebase/config";
-import { doc, setDoc } from "firebase/firestore";
+} from 'react';
+
+import { auth } from '../../Firebase/config';
+import { db } from '../../Firebase/config';
 
 export type AuthType = {
-  user: User | null;
+  user: User | any;
   signUp: (
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
   ) => void;
   signIn: (email: string, password: string) => void;
   logOut: () => void;
@@ -36,17 +37,13 @@ export type AuthType = {
 };
 const AuthContext = createContext<AuthType | undefined>(undefined);
 
-export default function AuthContextProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const [user, setUser] = useState<User | null>(null);
+const AuthContextProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | any>({});
 
   // Triggers when auth state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser as User);
     });
 
     return () => {
@@ -54,61 +51,61 @@ export default function AuthContextProvider({
     };
   }, []);
 
-  function signUp(
+  const signUp = (
     email: string,
     password: string,
     firstName: string,
-    lastName: string
-  ) {
+    lastName: string,
+  ) => {
     return createUserWithEmailAndPassword(auth, email, password).then(
       (userRecord) => {
-        setDoc(doc(db, "users", userRecord.user.uid), {
+        setDoc(doc(db, 'users', userRecord.user.uid), {
           email: email,
           firstName: firstName,
           lastName: lastName,
           links: [],
           transportationIDS: [],
           id: {
-            birthDate: "",
-            birthPlace: "",
-            code: "",
-            driving: "",
-            expiryDate: "",
+            birthDate: '',
+            birthPlace: '',
+            code: '',
+            driving: '',
+            expiryDate: '',
             fullName: firstName + lastName,
-            gender: "",
-            image: "",
-            insurance: "",
-            nationality: "",
-            nid: "",
-            signature: "",
+            gender: '',
+            image: '',
+            insurance: '',
+            nationality: '',
+            nid: '',
+            signature: '',
           },
           identificationDocs: [],
           financeDocs: [],
           propertyDocs: [],
           educationDocs: [],
         });
-        // sendEmailVerification(auth.currentUser);
-        // updateProfile(auth.currentUser, {
-        //   displayName: `${firstName} ${lastName}`,
-        // });
-      }
+        sendEmailVerification(auth.currentUser as User);
+        updateProfile(auth.currentUser as User, {
+          displayName: `${firstName} ${lastName}`,
+        });
+      },
     );
-  }
+  };
 
-  function forgotPassword(auth: Auth, email: string) {
+  const forgotPassword = (auth: Auth, email: string) => {
     sendPasswordResetEmail(auth, email);
-  }
-  function resetPassword(user: User, newPassword: string) {
+  };
+  const resetPassword = (user: User, newPassword: string) => {
     updatePassword(user, newPassword);
-  }
+  };
 
-  function signIn(email: string, password: string) {
+  const signIn = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
-  }
+  };
 
-  function logOut() {
+  const logOut = () => {
     return signOut(auth);
-  }
+  };
 
   return (
     <AuthContext.Provider
@@ -124,7 +121,8 @@ export default function AuthContextProvider({
       {children}
     </AuthContext.Provider>
   );
-}
+};
+export default AuthContextProvider;
 
 export function useAuth() {
   return useContext(AuthContext);

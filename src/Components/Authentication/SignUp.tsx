@@ -1,37 +1,38 @@
-import { useState, FormEvent } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  Grid,
-  Box,
-  Typography,
   Alert,
-  Link as MLink,
+  Avatar,
+  Box,
+  Button,
   Container,
+  CssBaseline,
   Divider,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useAuth, AuthType } from "../Contexts/AuthContext";
+  Grid,
+  Link as MLink,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { AuthType, useAuth } from '../Contexts/AuthContext';
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const { signUp } = useAuth() as AuthType;
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
       await signUp(email, password, firstName, lastName);
-      navigate("/dashboard");
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message);
     }
@@ -43,12 +44,12 @@ const SignUp = () => {
       <Box
         sx={{
           marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -119,7 +120,7 @@ const SignUp = () => {
                 variant="body2"
                 component={Link}
                 to="/signin"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: 'none' }}
               >
                 Already have an account? Sign in
               </MLink>

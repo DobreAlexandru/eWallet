@@ -1,29 +1,37 @@
-import { useState, FormEvent } from "react";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import SwipeLeftIcon from '@mui/icons-material/SwipeLeft';
 import {
-  StripeElements,
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Divider,
+  IconButton,
+  Paper,
+  Typography,
+} from '@mui/material';
+import {
+  CardElement,
+  PaymentRequestButtonElement,
+  useElements,
+  useStripe,
+} from '@stripe/react-stripe-js';
+import {
+  PaymentRequest,
   Stripe,
   StripeCardElement,
   StripeCardNumberElement,
-} from "@stripe/stripe-js/types/stripe-js";
-import axios from "axios";
-import {
-  Container,
-  Button,
-  Box,
-  Typography,
-  Alert,
-  IconButton,
-  CircularProgress,
-  Paper,
-} from "@mui/material";
-import SwipeLeftIcon from "@mui/icons-material/SwipeLeft";
-import QRCode from "react-qr-code";
-import { v4 as uuid } from "uuid";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { useAuth, AuthType } from "../Contexts/AuthContext";
-import { db } from "../../Firebase/config";
-import { Link } from "react-router-dom";
+  StripeElements,
+} from '@stripe/stripe-js/types/stripe-js';
+import axios from 'axios';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { FormEvent, useEffect, useState } from 'react';
+import QRCode from 'react-qr-code';
+import { Link } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
+
+import { db } from '../../Firebase/config';
+import { AuthType, useAuth } from '../Contexts/AuthContext';
 
 type itemType = {
   key: string;
@@ -34,36 +42,36 @@ type itemType = {
 
 const items = [
   {
-    key: "#singlemetro",
-    name: "singleMetro",
+    key: '#singlemetro',
+    name: 'singleMetro',
     price: 120,
-    description: "Single Metro Trip",
+    description: 'Single Metro Trip',
   },
   {
-    key: "#monthlymetro",
-    name: "monthlyMetro",
+    key: '#monthlymetro',
+    name: 'monthlyMetro',
     price: 1200,
-    description: "Monthly Metro Pass",
+    description: 'Monthly Metro Pass',
   },
   {
-    key: "#singlebus",
-    name: "singleBus",
+    key: '#singlebus',
+    name: 'singleBus',
     price: 100,
-    description: "Single Bus Trip",
+    description: 'Single Bus Trip',
   },
   {
-    key: "#monthlybus",
-    name: "monthlyBus",
+    key: '#monthlybus',
+    name: 'monthlyBus',
     price: 1000,
-    description: "Monthly Bus Pass",
+    description: 'Monthly Bus Pass',
   },
 ];
 
 const PaymentForm = () => {
   const [success, setSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
-  const [error, setError] = useState("");
-  const [uniqueID, setUniqueID] = useState("");
+  const [error, setError] = useState('');
+  const [uniqueID, setUniqueID] = useState('');
   const [loading, setLoading] = useState(false);
   const stripe = useStripe() as Stripe;
   const elements = useElements() as StripeElements;
@@ -71,6 +79,9 @@ const PaymentForm = () => {
   const key = window.location.hash as string; // Using different window hashes for each item
   const item = items.find((i) => i.key === key) as itemType;
   const date = new Date() as Date; // Generating an expiry date for each ticket, one month from purchase
+  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
+    null,
+  );
 
   date.setMonth(date.getMonth() + 1);
 
@@ -78,7 +89,7 @@ const PaymentForm = () => {
     e.preventDefault();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
+      type: 'card',
       card: elements.getElement(CardElement) as
         | StripeCardElement
         | StripeCardNumberElement,
@@ -88,23 +99,21 @@ const PaymentForm = () => {
       setLoading(true);
       setOpenError(false);
       try {
-        const { id } = paymentMethod;
-
         // Hosting node.js app on heroku. Using axios to help communicate between the two
         const response = await axios.post(
-          "https://dibsdigitalwallet.herokuapp.com/checkout",
+          'https://dibsdigitalwallet.herokuapp.com/checkout',
           {
             amount: item.price,
-            id,
+            id: paymentMethod!.id,
             description: item.description,
-          }
+          },
         );
 
         if (response.data.success) {
-          const docRef = doc(db, "users", user!.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
+          const docRef = doc(db, 'users', user.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
           const randomID = uuid();
           setUniqueID(randomID);
-          console.log("Successfull payment");
+          console.log('Successfull payment');
           updateDoc(docRef, {
             transportationIDS: arrayUnion({
               name: item.description,
@@ -121,11 +130,32 @@ const PaymentForm = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (stripe) {
+  //     const pr = stripe.paymentRequest({
+  //       country: "RO",
+  //       currency: "eur",
+  //       total: {
+  //         label: item.description,
+  //         amount: item.price,
+  //       },
+  //       requestPayerName: true,
+  //       requestPayerEmail: true,
+  //     });
+  //     pr.canMakePayment().then((result) => {
+  //       if (result) {
+  //         setPaymentRequest(pr);
+  //       }
+  //     });
+  //   }
+
+  // }, [stripe]);
+
   return (
     <Container
       className="container"
       sx={{
-        minHeight: "calc(100vh - 66px)",
+        minHeight: 'calc(100vh - 66px)',
       }}
     >
       {!success ? (
@@ -133,16 +163,23 @@ const PaymentForm = () => {
           <Container component="main" maxWidth="xs">
             <Box
               sx={{
-                marginTop: "50%",
-                minHeight: "300px",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
+                marginTop: '50%',
+                minHeight: '300px',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
               }}
             >
               <Typography component="h1" variant="h5">
                 {item.description}
               </Typography>
+              {/* {paymentRequest && (
+                <>
+                  <Divider sx={{ paddingTop: "20px" }} />
+                  <PaymentRequestButtonElement options={{ paymentRequest }} />
+                  <Divider sx={{ paddingTop: "20px" }} />
+                </>
+              )} */}
               <Box
                 component="form"
                 onSubmit={handleSubmit}
@@ -151,7 +188,7 @@ const PaymentForm = () => {
               >
                 <Paper
                   sx={{
-                    padding: "20px",
+                    padding: '20px',
                   }}
                   elevation={5}
                 >
@@ -170,7 +207,7 @@ const PaymentForm = () => {
                   </Button>
                 )}
                 {loading && (
-                  <Box sx={{ paddingTop: "50px" }}>
+                  <Box sx={{ paddingTop: '50px' }}>
                     <CircularProgress />
                   </Box>
                 )}
@@ -184,17 +221,17 @@ const PaymentForm = () => {
           <Container component="main" maxWidth="xs">
             <Box
               sx={{
-                marginTop: "20%",
-                minHeight: "300px",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
+                marginTop: '20%',
+                minHeight: '300px',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
               }}
             >
               <Typography
                 component="h1"
                 variant="h4"
-                sx={{ paddingBottom: "25px" }}
+                sx={{ paddingBottom: '25px' }}
               >
                 Thank you for your purchase!
               </Typography>
@@ -203,14 +240,14 @@ const PaymentForm = () => {
               <Typography
                 component="h1"
                 variant="h6"
-                sx={{ paddingTop: "25px" }}
+                sx={{ paddingTop: '25px' }}
               >
                 Your ticket has been added to your wallet.
               </Typography>
               <IconButton
                 aria-label="back"
                 size="large"
-                sx={{ color: "#F1DAC4", textDecoration: "none" }}
+                sx={{ color: '#F1DAC4', textDecoration: 'none' }}
                 component={Link}
                 disableRipple={true}
                 to="/transportation"

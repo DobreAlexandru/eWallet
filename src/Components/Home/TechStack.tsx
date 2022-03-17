@@ -1,6 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Grid, Box } from "@mui/material";
+import { Box, Grid } from '@mui/material';
+import { motion } from 'framer-motion';
 
 const TechStack = () => {
   return (
@@ -8,29 +7,29 @@ const TechStack = () => {
       className="home-div"
       transition={{
         duration: 0.5,
-        type: "tween",
+        type: 'tween',
       }}
       whileHover={{
         scale: 1.6,
       }}
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Box
         sx={{
-          height: "73%",
-          width: "60%",
-          overflowY: "scroll",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          height: '73%',
+          width: '60%',
+          overflowY: 'scroll',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
         className="laptop-box"
       >
-        <Grid container sx={{ height: "100%", width: "100%" }} spacing={5}>
+        <Grid container sx={{ height: '100%', width: '100%' }} spacing={5}>
           <Grid item xs={6}>
             <a href="https://reactjs.org/">
               <svg

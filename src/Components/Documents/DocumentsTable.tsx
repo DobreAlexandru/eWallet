@@ -1,96 +1,91 @@
-import React from "react";
-import { useAuth } from "../Contexts/AuthContext";
-import { db } from "../../Firebase/config";
-import { useEffect, useState } from "react";
-import {
-  getDoc,
-  doc,
-  updateDoc,
-  arrayRemove,
-  arrayUnion,
-} from "firebase/firestore";
+import DeleteIcon from '@mui/icons-material/Delete';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import IosShareIcon from '@mui/icons-material/IosShare';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {
   Grid,
-  Typography,
   IconButton,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  MenuList,
   Modal,
   Popover,
-  MenuList,
-  MenuItem,
-  ListItemText,
-  ListItemIcon,
-} from "@mui/material";
-import IosShareIcon from "@mui/icons-material/IosShare";
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Worker } from "@react-pdf-viewer/core";
-import { Viewer } from "@react-pdf-viewer/core";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { styled } from "@mui/material/styles";
+  Typography,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Viewer, Worker } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { DocumentSnapshot } from 'firebase/firestore';
+import {
+  getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import firebase from "firebase/auth";
+} from 'firebase/storage';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-const Input = styled("input")({
-  display: "none",
+import { db } from '../../Firebase/config';
+import { AuthType, useAuth } from '../Contexts/AuthContext';
+
+const Input = styled('input')({
+  display: 'none',
 });
 
 const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
-  const { user } = useAuth() as { user: firebase.User };
+  const { user } = useAuth() as AuthType;
   const [data, setData] = useState([]);
-  const [currentItem, setCurrentItem] = useState({ name: "", download: "" });
-  const [open, setOpen] = React.useState(false);
+  const [currentItem, setCurrentItem] = useState({ name: '', download: '' });
+  const [open, setOpen] = useState(false);
   const storage = getStorage();
-
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const metadata = {
-    contentType: "application/pdf",
+    contentType: 'application/pdf',
   };
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const uploadFile = (event: any) => {
-    let file = event.target.files[0];
+  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    let file = e.target.files![0];
     const storageRef = ref(storage, `documents/${user.uid}/` + file.name);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-    const docRef = doc(db, "users", user.uid);
+    const docRef = doc(db, 'users', user.uid);
 
     if (file)
       uploadTask.on(
-        "state_changed",
+        'state_changed',
         (snapshot) => {
           let percentage =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
-          console.log("Upload is " + percentage + "% done");
+          console.log('Upload is ' + percentage + '% done');
           switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
+            case 'paused':
+              console.log('Upload is paused');
               break;
-            case "running":
-              console.log("Upload is running");
+            case 'running':
+              console.log('Upload is running');
               break;
           }
         },
         (error) => {
           switch (error.code) {
-            case "storage/unauthorized":
+            case 'storage/unauthorized':
               break;
-            case "storage/canceled":
+            case 'storage/canceled':
               break;
-            case "storage/unknown":
+            case 'storage/unknown':
               break;
           }
         },
@@ -104,24 +99,24 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
             });
             getDB();
           });
-        }
+        },
       );
   };
 
   const openPopover = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   const getDB = async () => {
-    const docRef = doc(db, "users", user.uid);
-    await getDoc(docRef).then((doc: any) => {
-      setData(doc.data()[dbKey]);
+    const docRef = doc(db, 'users', user.uid);
+    await getDoc(docRef).then((doc: DocumentSnapshot) => {
+      setData(doc.data()![dbKey]);
     });
   };
 
   useEffect(() => {
     getDB();
     setData([]);
-    setCurrentItem({ name: "", download: "" });
+    setCurrentItem({ name: '', download: '' });
   }, [dbKey]);
 
   return (
@@ -130,7 +125,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
         <>
           <label
             htmlFor="contained-button-file"
-            style={{ position: "absolute", bottom: "10%", right: "10%" }}
+            style={{ position: 'absolute', bottom: '10%', right: '10%' }}
           >
             <Input
               accept="application/pdf"
@@ -145,12 +140,12 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
               component="span"
               disableRipple={true}
             >
-              <UploadFileIcon sx={{ fontSize: 50, color: "#F1DAC4" }} />
+              <UploadFileIcon sx={{ fontSize: 50, color: '#F1DAC4' }} />
             </IconButton>
           </label>
 
           {data && (
-            <Grid container sx={{ display: "flex", textAlign: "center" }}>
+            <Grid container sx={{ display: 'flex', textAlign: 'center' }}>
               {data.map((item: any) => {
                 if (item.download)
                   return (
@@ -167,8 +162,8 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                           <PictureAsPdfIcon
                             sx={{
                               fontSize: 50,
-                              color: "#F1DAC4",
-                              marginRight: "-10px",
+                              color: '#F1DAC4',
+                              marginRight: '-10px',
                             }}
                           />
                         </IconButton>
@@ -182,7 +177,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                           aria-label="options"
                           size="small"
                           onClick={(
-                            event: React.MouseEvent<HTMLButtonElement>
+                            event: React.MouseEvent<HTMLButtonElement>,
                           ) => {
                             setAnchorEl(event.currentTarget);
                             setCurrentItem(item);
@@ -191,7 +186,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                           <MoreHorizIcon
                             sx={{
                               fontSize: 20,
-                              color: "#F1DAC4",
+                              color: '#F1DAC4',
                             }}
                           />
                         </IconButton>
@@ -202,12 +197,12 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                         anchorEl={anchorEl}
                         onClose={handleClose}
                         anchorOrigin={{
-                          vertical: "top",
-                          horizontal: "right",
+                          vertical: 'top',
+                          horizontal: 'right',
                         }}
                         transformOrigin={{
-                          vertical: "center",
-                          horizontal: "left",
+                          vertical: 'center',
+                          horizontal: 'left',
                         }}
                       >
                         <MenuList>
@@ -220,7 +215,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                             <ListItemIcon>
                               <FileDownloadOutlinedIcon
                                 fontSize="small"
-                                sx={{ color: "#F1DAC4" }}
+                                sx={{ color: '#F1DAC4' }}
                               />
                             </ListItemIcon>
                             <ListItemText>Save</ListItemText>
@@ -228,7 +223,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                           <MenuItem
                             onClick={() => {
                               navigator.share({
-                                title: "MDN",
+                                title: 'MDN',
                                 text: currentItem.name,
                                 url: currentItem.download,
                               });
@@ -238,14 +233,14 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                             <ListItemIcon>
                               <IosShareIcon
                                 fontSize="small"
-                                sx={{ color: "#F1DAC4" }}
+                                sx={{ color: '#F1DAC4' }}
                               />
                             </ListItemIcon>
                             <ListItemText>Share</ListItemText>
                           </MenuItem>
                           <MenuItem
                             onClick={() => {
-                              const docRef = doc(db, "users", user.uid);
+                              const docRef = doc(db, 'users', user.uid);
                               updateDoc(docRef, {
                                 [dbKey]: arrayRemove(currentItem),
                               });
@@ -257,7 +252,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                             <ListItemIcon>
                               <DeleteIcon
                                 fontSize="small"
-                                sx={{ color: "#F1DAC4" }}
+                                sx={{ color: '#F1DAC4' }}
                               />
                             </ListItemIcon>
                             <ListItemText>Delete</ListItemText>
@@ -276,21 +271,21 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                outline: "none",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                outline: 'none',
               }}
             >
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "80vh",
-                  width: "80vw",
-                  maxWidth: "80vh",
-                  outline: "none",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '80vh',
+                  width: '80vw',
+                  maxWidth: '80vh',
+                  outline: 'none',
                 }}
               >
                 <Viewer fileUrl={currentItem.download} />

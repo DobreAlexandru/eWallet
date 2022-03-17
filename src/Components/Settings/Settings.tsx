@@ -1,21 +1,20 @@
-import React from "react";
-import { Container } from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Container } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
 
 const Settings = () => {
   return (
     <Container
       sx={{
-        height: "calc(100% - 66px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100vw",
-        padding: "0",
+        height: 'calc(100% - 66px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100vw',
+        padding: '0',
       }}
     >
       <div>
@@ -60,7 +59,7 @@ const Settings = () => {
             <Typography>Disabled Accordion</Typography>
           </AccordionSummary>
         </Accordion>
-      </div>{" "}
+      </div>{' '}
     </Container>
   );
 };

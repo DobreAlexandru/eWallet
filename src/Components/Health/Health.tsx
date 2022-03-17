@@ -1,17 +1,16 @@
-import React from "react";
-import { Container } from "@mui/material";
-import SwipeRightIcon from "@mui/icons-material/SwipeRight";
+import SwipeRightIcon from '@mui/icons-material/SwipeRight';
+import { Container } from '@mui/material';
 
 const Health = () => {
   return (
     <Container
       sx={{
-        height: "calc(100% - 66px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100vw",
-        padding: "0",
+        height: 'calc(100% - 66px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100vw',
+        padding: '0',
       }}
     >
       Health

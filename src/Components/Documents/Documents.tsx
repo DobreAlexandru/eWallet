@@ -1,17 +1,17 @@
-import React from "react";
 import {
-  Container,
+  CalculateOutlined,
+  FolderSharedOutlined,
+  MapsHomeWorkOutlined,
+  SchoolSharp,
+} from '@mui/icons-material';
+import {
   BottomNavigation,
   BottomNavigationAction,
-} from "@mui/material";
-import DocumentsTable from "./DocumentsTable";
-import { useState } from "react";
-import {
-  SchoolSharp,
-  CalculateOutlined,
-  MapsHomeWorkOutlined,
-  FolderSharedOutlined,
-} from "@mui/icons-material";
+  Container,
+} from '@mui/material';
+import { SyntheticEvent, useState } from 'react';
+
+import DocumentsTable from './DocumentsTable';
 
 const types = [
   {
@@ -57,10 +57,10 @@ const types = [
 ];
 
 const Documents = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   // Change bottom menu active item
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
@@ -68,20 +68,20 @@ const Documents = () => {
     <>
       <Container
         sx={{
-          height: "calc(100% - 66px)",
-          justifyContent: "center",
-          maxWidth: "90vw",
-          padding: "0",
-          paddingTop: "5%",
+          height: 'calc(100% - 66px)',
+          justifyContent: 'center',
+          maxWidth: '90vw',
+          padding: '0',
+          paddingTop: '5%',
         }}
       >
         <DocumentsTable dbKey={value} />
       </Container>
       <BottomNavigation
         sx={{
-          width: "100%",
-          position: "absolute",
-          bottom: "0",
+          width: '100%',
+          position: 'absolute',
+          bottom: '0',
           borderTopLeftRadius: 8,
           borderTopRightRadius: 8,
         }}

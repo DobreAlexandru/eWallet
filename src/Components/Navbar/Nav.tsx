@@ -1,30 +1,32 @@
-import * as React from "react";
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import {
   AppBar,
   Box,
-  Toolbar,
-  IconButton,
-  MenuItem,
-  Menu,
-  Container,
   Button,
-} from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Link } from "react-router-dom";
-import { useAuth } from "../Contexts/AuthContext";
-import Avatar from "@mui/material/Avatar";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import { MouseEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { AuthType, useAuth } from '../Contexts/AuthContext';
 
 export default function PrimarySearchAppBar() {
-  const { user, logOut } = useAuth() as any;
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { user, logOut } = useAuth() as AuthType;
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
+  const handleProfileMenuOpen = (e: MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -36,8 +38,8 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event: any) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+  const handleMobileMenuOpen = (e: MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(e.currentTarget);
   };
 
   const handleLogout = async () => {
@@ -50,19 +52,19 @@ export default function PrimarySearchAppBar() {
     }
   };
 
-  const menuId = "primary-search-account-menu";
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
@@ -70,7 +72,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem
         component={Link}
         to="/dashboard"
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: 'none' }}
         onClick={handleMenuClose}
       >
         Dashboard
@@ -78,7 +80,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem
         component={Link}
         to="/settings"
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: 'none' }}
         onClick={handleMenuClose}
       >
         Settings
@@ -87,19 +89,19 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -107,7 +109,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem
         component={Link}
         to="/dashboard"
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: 'none' }}
         onClick={handleMenuClose}
       >
         Dashboard
@@ -115,7 +117,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem
         component={Link}
         to="/settings"
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: 'none' }}
         onClick={handleMenuClose}
       >
         Settings
@@ -143,7 +145,7 @@ export default function PrimarySearchAppBar() {
               <AccountBalanceWalletOutlinedIcon fontSize="large" />
             </IconButton>
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               {user && (
                 <IconButton
                   size="large"
@@ -167,13 +169,13 @@ export default function PrimarySearchAppBar() {
                   variant="contained"
                   component={Link}
                   to="/signin"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
                   Sign In
                 </Button>
               )}
             </Box>
-            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               {user && (
                 <IconButton
                   size="large"
@@ -195,7 +197,7 @@ export default function PrimarySearchAppBar() {
                   variant="contained"
                   component={Link}
                   to="/signin"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
                   Sign In
                 </Button>
