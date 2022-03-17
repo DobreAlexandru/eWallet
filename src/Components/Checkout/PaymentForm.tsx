@@ -113,7 +113,6 @@ const PaymentForm = () => {
           const docRef = doc(db, 'users', user.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
           const randomID = uuid();
           setUniqueID(randomID);
-          console.log('Successfull payment');
           updateDoc(docRef, {
             transportationIDS: arrayUnion({
               name: item.description,

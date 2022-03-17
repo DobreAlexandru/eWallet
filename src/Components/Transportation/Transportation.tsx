@@ -230,6 +230,8 @@ export default function Transportation() {
             {links.map((item: any) => (
               <Grid
                 item
+                component={motion.div}
+                layout
                 xs={12}
                 md={7}
                 sx={{

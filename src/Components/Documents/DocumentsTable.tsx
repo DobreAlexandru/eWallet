@@ -32,6 +32,7 @@ import {
   ref,
   uploadBytesResumable,
 } from 'firebase/storage';
+import { motion } from 'framer-motion';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { db } from '../../Firebase/config';
@@ -109,7 +110,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
   const getDB = async () => {
     const docRef = doc(db, 'users', user.uid);
     await getDoc(docRef).then((doc: DocumentSnapshot) => {
-      setData(doc.data()![dbKey]);
+      setData(doc.data()![dbKey].reverse());
     });
   };
 
@@ -149,48 +150,54 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
               {data.map((item: any) => {
                 if (item.download)
                   return (
-                    <>
-                      <Grid item xs={4} md={3} key={item.download}>
-                        <IconButton
-                          aria-label="item"
-                          size="small"
-                          onClick={() => {
-                            setOpen(true);
-                            setCurrentItem(item);
+                    <Grid
+                      item
+                      xs={4}
+                      md={3}
+                      key={item.download}
+                      component={motion.div}
+                      layout
+                    >
+                      <IconButton
+                        aria-label="item"
+                        size="small"
+                        onClick={() => {
+                          setOpen(true);
+                          setCurrentItem(item);
+                        }}
+                      >
+                        <PictureAsPdfIcon
+                          sx={{
+                            fontSize: 50,
+                            color: '#F1DAC4',
+                            marginRight: '-10px',
                           }}
-                        >
-                          <PictureAsPdfIcon
-                            sx={{
-                              fontSize: 50,
-                              color: '#F1DAC4',
-                              marginRight: '-10px',
-                            }}
-                          />
-                        </IconButton>
+                        />
+                      </IconButton>
 
-                        <Typography variant="body1">
-                          {item.name.length > 8
-                            ? `${item.name.slice(0, 8)}...`
-                            : item.name}
-                        </Typography>
-                        <IconButton
-                          aria-label="options"
-                          size="small"
-                          onClick={(
-                            event: React.MouseEvent<HTMLButtonElement>,
-                          ) => {
-                            setAnchorEl(event.currentTarget);
-                            setCurrentItem(item);
+                      <Typography variant="body1">
+                        {item.name.length > 8
+                          ? `${item.name.slice(0, 8)}...`
+                          : item.name}
+                      </Typography>
+                      <IconButton
+                        aria-label="options"
+                        size="small"
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement>,
+                        ) => {
+                          setAnchorEl(event.currentTarget);
+                          setCurrentItem(item);
+                        }}
+                      >
+                        <MoreHorizIcon
+                          sx={{
+                            fontSize: 20,
+                            color: '#F1DAC4',
                           }}
-                        >
-                          <MoreHorizIcon
-                            sx={{
-                              fontSize: 20,
-                              color: '#F1DAC4',
-                            }}
-                          />
-                        </IconButton>
-                      </Grid>
+                        />
+                      </IconButton>
+
                       <Popover
                         id={id}
                         open={openPopover}
@@ -259,7 +266,7 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                           </MenuItem>
                         </MenuList>
                       </Popover>
-                    </>
+                    </Grid>
                   );
               })}
             </Grid>
