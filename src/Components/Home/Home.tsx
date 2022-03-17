@@ -5,7 +5,7 @@ import TextTransition, { presets } from 'react-text-transition';
 import TechStack from './TechStack';
 
 const texts = ['ID card', 'passport', 'documents', 'bus tickets'];
-
+s;
 const Home = () => {
   const [index, setIndex] = useState(0);
 

@@ -112,7 +112,13 @@ const Identification = () => {
                 <Divider />
               </Grid>
               <Divider orientation="vertical" flexItem></Divider>
-              <Grid item xs={5.9} sx={{ minHeight: '24px' }}>
+              <Grid
+                item
+                xs={5.9}
+                sx={{
+                  minHeight: '24px',
+                }}
+              >
                 <Typography variant="body1" component="div">
                   {data.nid}
                 </Typography>
@@ -125,7 +131,13 @@ const Identification = () => {
                 <Divider />
               </Grid>
               <Divider orientation="vertical" flexItem></Divider>
-              <Grid item xs={5.9} sx={{ minHeight: '24px' }}>
+              <Grid
+                item
+                xs={5.9}
+                sx={{
+                  minHeight: '24px',
+                }}
+              >
                 <Typography variant="body1" component="div">
                   {data.driving}
                 </Typography>
@@ -138,7 +150,13 @@ const Identification = () => {
                 <Divider />
               </Grid>
               <Divider orientation="vertical" flexItem></Divider>
-              <Grid item xs={5.9} sx={{ minHeight: '24px' }}>
+              <Grid
+                item
+                xs={5.9}
+                sx={{
+                  minHeight: '24px',
+                }}
+              >
                 <Typography variant="body1" component="div">
                   {data.insurance}
                 </Typography>
@@ -161,7 +179,9 @@ const Identification = () => {
                   aria-label="flip"
                   onClick={handleClick}
                   disableRipple={true}
-                  sx={{ color: '#F1DAC4' }}
+                  sx={{
+                    color: '#F1DAC4',
+                  }}
                 >
                   <FlipIcon />
                 </IconButton>
@@ -235,7 +255,9 @@ const Identification = () => {
                 <Typography
                   variant="body1"
                   component="div"
-                  sx={{ minHeight: '24px' }}
+                  sx={{
+                    minHeight: '24px',
+                  }}
                 >
                   {data.gender}
                 </Typography>
@@ -252,7 +274,9 @@ const Identification = () => {
                 <Typography
                   variant="body1"
                   component="div"
-                  sx={{ minHeight: '24px' }}
+                  sx={{
+                    minHeight: '24px',
+                  }}
                 >
                   {data.birthDate}
                 </Typography>
@@ -269,7 +293,9 @@ const Identification = () => {
                 <Typography
                   variant="body1"
                   component="div"
-                  sx={{ minHeight: '24px' }}
+                  sx={{
+                    minHeight: '24px',
+                  }}
                 >
                   {data.expiryDate}
                 </Typography>

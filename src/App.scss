@@ -16,7 +16,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-image: url("/src/Images/Background.svg");
+  background-image: url('/src/Images/Background.svg');
   z-index: -400;
 }
 
@@ -27,7 +27,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  background-image: url("/src/Images/HomeLaptop.png");
+  background-image: url('/src/Images/HomeLaptop.png');
 }
 
 #root {
@@ -63,7 +63,8 @@ ul {
 
 .laptop-box::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px
+    rgba(0, 0, 0, 0.3);
 
   background-color: #f1dac4;
 }
