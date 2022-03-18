@@ -25,6 +25,7 @@ import {
 } from '@stripe/stripe-js/types/stripe-js';
 import axios from 'axios';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { motion } from 'framer-motion';
 import { FormEvent, useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { Link } from 'react-router-dom';
@@ -216,7 +217,15 @@ const PaymentForm = () => {
           </Container>
         </>
       ) : (
-        <>
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+          }}
+        >
           <Container component="main" maxWidth="xs">
             <Box
               sx={{
@@ -255,7 +264,7 @@ const PaymentForm = () => {
               </IconButton>
             </Box>
           </Container>
-        </>
+        </motion.div>
       )}
     </Container>
   );
