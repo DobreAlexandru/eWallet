@@ -6,7 +6,7 @@ import { Container, Grid } from '@mui/material';
 import { Reorder } from 'framer-motion';
 import { useState } from 'react';
 
-import DashboardItem from './DashboardItem/DashboardItem';
+import DashboardItem from '../Components/Dashboard/DashboardItem';
 
 const categories = [
   {

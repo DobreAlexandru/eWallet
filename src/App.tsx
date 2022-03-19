@@ -3,19 +3,19 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import './App.scss';
-import SignIn from './Components/Authentication/SignIn';
-import SignUp from './Components/Authentication/SignUp';
-import Checkout from './Components/Checkout/Checkout';
-import AuthContextProvider from './Components/Contexts/AuthContext';
-import Dashboard from './Components/Dashboard/Dashboard';
-import Documents from './Components/Documents/Documents';
-import Health from './Components/Health/Health';
-import Home from './Components/Home/Home';
-import Identification from './Components/Identification/Identification';
 import Nav from './Components/Navbar/Nav';
-import ProtectedRoute from './Components/ProtectedRoute';
-import Settings from './Components/Settings/Settings';
-import Transportation from './Components/Transportation/Transportation';
+import AuthContextProvider from './Contexts/AuthContext';
+import Checkout from './Pages/Checkout';
+import Dashboard from './Pages/Dashboard';
+import Documents from './Pages/Documents';
+import Health from './Pages/Health';
+import Home from './Pages/Home';
+import Identification from './Pages/Identification';
+import Settings from './Pages/Settings';
+import SignIn from './Pages/SignIn';
+import SignUp from './Pages/SignUp';
+import Transportation from './Pages/Transportation';
+import ProtectedRoute from './Utils/ProtectedRoute';
 
 function App() {
   const theme = createTheme({

@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AuthType, useAuth } from '../Contexts/AuthContext';
+import { AuthType, useAuth } from '../../Contexts/AuthContext';
 
 export default function PrimarySearchAppBar() {
   const { user, logOut } = useAuth() as AuthType;

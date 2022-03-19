@@ -18,9 +18,10 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { v4 as uuid } from 'uuid';
 
-import { auth } from '../../Firebase/config';
-import { db } from '../../Firebase/config';
+import { auth } from '../Firebase/config';
+import { db } from '../Firebase/config';
 
 export type AuthType = {
   user: User | any;
@@ -29,6 +30,11 @@ export type AuthType = {
     password: string,
     firstName: string,
     lastName: string,
+    country: string,
+    nationalID: string,
+    birthPlace: string,
+    birthDate: Date | null,
+    gender: string,
   ) => void;
   signIn: (email: string, password: string) => void;
   logOut: () => void;
@@ -56,6 +62,11 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     password: string,
     firstName: string,
     lastName: string,
+    country: string,
+    nationalID: string,
+    birthPlace: string,
+    birthDate: Date | null,
+    gender: string,
   ) => {
     return createUserWithEmailAndPassword(auth, email, password).then(
       (userRecord) => {
@@ -66,17 +77,16 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           links: [],
           transportationIDS: [],
           id: {
-            birthDate: '',
-            birthPlace: '',
-            code: '',
+            birthDate: birthDate,
+            birthPlace: birthPlace,
+            code: uuid(),
             driving: '',
-            expiryDate: '',
-            fullName: firstName + lastName,
-            gender: '',
+            fullName: firstName + ' ' + lastName,
+            gender: gender,
             image: '',
-            insurance: '',
-            nationality: '',
-            nid: '',
+            insurance: 'Fully Covered',
+            nationality: country,
+            nid: nationalID,
             signature: '',
           },
           identificationDocs: [],
@@ -124,6 +134,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 };
 export default AuthContextProvider;
 
-export function useAuth() {
+export const useAuth = () => {
   return useContext(AuthContext);
-}
+};

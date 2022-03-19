@@ -15,10 +15,10 @@ import { useEffect, useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import QRCode from 'react-qr-code';
 
-import { db } from '../../Firebase/config';
-import ProfilePlaceholder from '../../Images/ProfilePlaceholder.svg';
-import SignaturePlaceholder from '../../Images/SignaturePlaceholder.png';
 import { AuthType, useAuth } from '../Contexts/AuthContext';
+import { db } from '../Firebase/config';
+import ProfilePlaceholder from '../Images/ProfilePlaceholder.svg';
+import SignaturePlaceholder from '../Images/SignaturePlaceholder.png';
 
 type DataType = {
   code: string;
@@ -37,6 +37,14 @@ const Identification = () => {
   const [isFlipped, setIsFlipped] = useState(false);
   const { user } = useAuth() as AuthType;
   const [data, setData] = useState<DataType | any>({});
+
+  const convertDate = (date: Date) => {
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+
+    return mm + '/' + dd + '/' + yyyy;
+  };
 
   const getDB = async () => {
     const docRef = doc(db, 'users', user.uid);
@@ -139,7 +147,7 @@ const Identification = () => {
                 }}
               >
                 <Typography variant="body1" component="div">
-                  {data.driving}
+                  {data.driving ? data.driving : 'None'}
                 </Typography>
                 <Divider />
               </Grid>
@@ -204,7 +212,7 @@ const Identification = () => {
             <CardHeader
               title={
                 <Typography variant="h6" component="div">
-                  Dobre Alexandru Dumitru
+                  {data.fullName}
                 </Typography>
               }
               avatar={<FingerprintIcon />}
@@ -278,26 +286,7 @@ const Identification = () => {
                     minHeight: '24px',
                   }}
                 >
-                  {data.birthDate}
-                </Typography>
-                <Divider />
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" component="div">
-                  Expiry Date
-                </Typography>
-                <Divider />
-              </Grid>
-              <Divider orientation="vertical" flexItem></Divider>
-              <Grid item xs={5.9}>
-                <Typography
-                  variant="body1"
-                  component="div"
-                  sx={{
-                    minHeight: '24px',
-                  }}
-                >
-                  {data.expiryDate}
+                  {convertDate(data.birthDate.toDate())}
                 </Typography>
                 <Divider />
               </Grid>

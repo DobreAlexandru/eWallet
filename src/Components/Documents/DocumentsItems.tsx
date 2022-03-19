@@ -3,7 +3,6 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {
   Grid,
   IconButton,
@@ -11,143 +10,62 @@ import {
   ListItemText,
   MenuItem,
   MenuList,
-  Modal,
   Popover,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { Viewer, Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import {
-  arrayRemove,
-  arrayUnion,
-  doc,
-  getDoc,
-  updateDoc,
-} from 'firebase/firestore';
+import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { DocumentSnapshot } from 'firebase/firestore';
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
 import { motion } from 'framer-motion';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
-import { AuthType, useAuth } from '../Contexts/AuthContext';
+import PdfModal from './PdfModal';
+import UploadButton from './UploadButton';
 
-const Input = styled('input')({
-  display: 'none',
-});
+export type DocumentsItemType = {
+  download: string;
+  name: string;
+};
 
-const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
+const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
   const { user } = useAuth() as AuthType;
   const [data, setData] = useState([]);
-  const [currentItem, setCurrentItem] = useState({ name: '', download: '' });
-  const [open, setOpen] = useState(false);
-  const storage = getStorage();
+  const [currentItem, setCurrentItem] = useState({
+    name: '',
+    download: '',
+  });
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const metadata = {
-    contentType: 'application/pdf',
-  };
-
+  const [open, setOpen] = useState<boolean>(false);
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    let file = e.target.files![0];
-    const storageRef = ref(storage, `documents/${user.uid}/` + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-    const docRef = doc(db, 'users', user.uid);
-
-    if (file)
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          let percentage =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-          console.log('Upload is ' + percentage + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
-        },
-        (error) => {
-          switch (error.code) {
-            case 'storage/unauthorized':
-              break;
-            case 'storage/canceled':
-              break;
-            case 'storage/unknown':
-              break;
-          }
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            updateDoc(docRef, {
-              [dbKey]: arrayUnion({
-                name: file.name.slice(0, -4),
-                download: downloadURL,
-              }),
-            });
-            getDB();
-          });
-        },
-      );
-  };
-
   const openPopover = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
   const getDB = async () => {
     const docRef = doc(db, 'users', user.uid);
     await getDoc(docRef).then((doc: DocumentSnapshot) => {
-      setData(doc.data()![dbKey].reverse());
+      if (doc.data()![dbKey]) {
+        setData(doc.data()![dbKey].reverse());
+      }
     });
   };
 
   useEffect(() => {
     getDB();
     setData([]);
-    setCurrentItem({ name: '', download: '' });
   }, [dbKey]);
 
   return (
     <>
       {dbKey && (
         <>
-          <label
-            htmlFor="contained-button-file"
-            style={{ position: 'absolute', bottom: '10%', right: '10%' }}
-          >
-            <Input
-              accept="application/pdf"
-              id="contained-button-file"
-              multiple
-              type="file"
-              onChange={uploadFile}
-            />
-            <IconButton
-              color="primary"
-              aria-label="upload"
-              component="span"
-              disableRipple={true}
-            >
-              <UploadFileIcon sx={{ fontSize: 50, color: '#F1DAC4' }} />
-            </IconButton>
-          </label>
-
+          <UploadButton dbKey={dbKey} getDB={getDB} />
           {data && (
             <Grid container sx={{ display: 'flex', textAlign: 'center' }}>
-              {data.map((item: any) => {
+              {data.map((item: DocumentsItemType) => {
                 if (item.download)
                   return (
                     <Grid
@@ -266,44 +184,22 @@ const DocumentsTable = ({ dbKey }: { dbKey: string }) => {
                           </MenuItem>
                         </MenuList>
                       </Popover>
+                      {currentItem && (
+                        <PdfModal
+                          currentItem={currentItem}
+                          open={open}
+                          setOpen={setOpen}
+                        />
+                      )}
                     </Grid>
                   );
               })}
             </Grid>
           )}
-          {currentItem && (
-            <Modal
-              open={open}
-              onClose={() => setOpen(false)}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                outline: 'none',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '80vh',
-                  width: '80vw',
-                  maxWidth: '80vh',
-                  outline: 'none',
-                }}
-              >
-                <Viewer fileUrl={currentItem.download} />
-              </div>
-            </Modal>
-          )}
-          <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.13.216/pdf.worker.min.js"></Worker>
         </>
       )}
     </>
   );
 };
 
-export default DocumentsTable;
+export default DocumentsItems;

@@ -1,13 +1,7 @@
-import { Global } from '@emotion/react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import DirectionsBusFilledOutlinedIcon from '@mui/icons-material/DirectionsBusFilledOutlined';
 import SwipeUpIcon from '@mui/icons-material/SwipeUp';
-import TrainIcon from '@mui/icons-material/Train';
-import TrainOutlinedIcon from '@mui/icons-material/TrainOutlined';
 import {
   Box,
-  Container,
   Grid,
   IconButton,
   Paper,
@@ -18,71 +12,21 @@ import { styled } from '@mui/material/styles';
 import { Timestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { arrayRemove } from 'firebase/firestore';
 import { DocumentSnapshot } from 'firebase/firestore';
-import { Reorder } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import QRCode from 'react-qr-code';
 
+import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
-import { AuthType, useAuth } from '../Contexts/AuthContext';
-import DashboardItem from '../Dashboard/DashboardItem/DashboardItem';
 
 const drawerBleeding = 56;
-
-const categories = [
-  {
-    name: 'Single Metro Trip',
-    icon: (
-      <TrainIcon
-        sx={{
-          fontSize: 125,
-          color: '#F1DAC4',
-        }}
-      />
-    ),
-    link: '/checkout',
-    color: '#A69CAC',
-    hash: 'singlemetro',
-  },
-  {
-    name: 'Monthly Metro Pass',
-    icon: <TrainOutlinedIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
-    link: '/checkout',
-    color: '#A69CAC',
-    hash: 'monthlymetro',
-  },
-  {
-    name: 'Single Bus Trip',
-    icon: <DirectionsBusIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
-    link: '/checkout',
-    color: '#A69CAC',
-    hash: 'singlebus',
-  },
-  {
-    name: 'Monthly Bus Pass',
-    icon: (
-      <DirectionsBusFilledOutlinedIcon
-        sx={{ fontSize: 125, color: '#F1DAC4' }}
-      />
-    ),
-    link: '/checkout',
-    color: '#A69CAC',
-    hash: 'monthlybus',
-  },
-];
-
-const Root = styled('div')(({ theme }) => ({
-  height: '100%',
-}));
-
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export default function Transportation() {
+const TransportationDrawer = () => {
   const [open, setOpen] = useState(false); // Open swiper
-  const [items, setItems] = useState(categories);
   const { user } = useAuth() as AuthType;
   const [links, setLinks] = useState([]); // Tickets already in wallet
 
@@ -93,6 +37,15 @@ export default function Transportation() {
     );
   };
 
+  useEffect(() => {
+    if (user.uid !== undefined) {
+      getDB();
+    }
+  }, [user]);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
   // Delete ticket from database and refresh drawer
   const handleDelete = (item: any) => {
     const docRef = doc(db, 'users', user.uid);
@@ -109,31 +62,8 @@ export default function Transportation() {
       date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
     );
   };
-
-  // Delay is here so animation doesn't bug out
-  useEffect(() => {
-    if (user.uid !== undefined) {
-      setTimeout(() => {
-        getDB();
-      }, 1500);
-    }
-  }, [user]);
-
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
-
   return (
-    <Root style={{ height: '100%', width: '100%' }}>
-      <Global
-        styles={{
-          '.MuiDrawer-root > .MuiPaper-root': {
-            height: `calc(75% - ${drawerBleeding}px)`,
-            overflow: 'visible',
-          },
-        }}
-      />
-
+    <>
       <IconButton
         onClick={toggleDrawer(true)}
         sx={{
@@ -152,33 +82,6 @@ export default function Transportation() {
       >
         <SwipeUpIcon />
       </IconButton>
-
-      <motion.div
-        initial={{ x: '100vw' }}
-        animate={{ x: 0 }}
-        transition={{ type: 'spring', stiffness: 50 }}
-        style={{ height: '100%', width: '100%' }}
-      >
-        <Container
-          sx={{
-            height: 'calc(100% - 66px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100vw',
-            padding: '0',
-          }}
-        >
-          <Reorder.Group onReorder={setItems} values={items}>
-            <Grid container>
-              {items.map((item) => {
-                return <DashboardItem key={item.name} item={item} />;
-              })}
-            </Grid>
-          </Reorder.Group>
-        </Container>
-      </motion.div>
-
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -301,6 +204,8 @@ export default function Transportation() {
           </Grid>
         </StyledBox>
       </SwipeableDrawer>
-    </Root>
+    </>
   );
-}
+};
+
+export default TransportationDrawer;

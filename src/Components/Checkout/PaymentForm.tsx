@@ -31,8 +31,8 @@ import QRCode from 'react-qr-code';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
+import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
-import { AuthType, useAuth } from '../Contexts/AuthContext';
 
 type itemType = {
   key: string;
@@ -152,12 +152,7 @@ const PaymentForm = () => {
   // }, [stripe]);
 
   return (
-    <Container
-      className="container"
-      sx={{
-        minHeight: 'calc(100vh - 66px)',
-      }}
-    >
+    <>
       {!success ? (
         <>
           <Container component="main" maxWidth="xs">
@@ -266,7 +261,7 @@ const PaymentForm = () => {
           </Container>
         </motion.div>
       )}
-    </Container>
+    </>
   );
 };
 
