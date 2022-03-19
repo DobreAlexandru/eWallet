@@ -1,6 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import TextTransition, { presets } from 'react-text-transition';
+import { Container, Grid } from '@mui/material';
 
 import HomeText from '../Components/Home/HomeText';
 import TechStack from '../Components/Home/TechStack';

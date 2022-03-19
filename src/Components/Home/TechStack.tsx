@@ -39,7 +39,7 @@ const TechStack = () => {
           }}
           className="laptop-box"
         >
-          <Grid container sx={{ height: '100%', width: '100%' }} spacing={5}>
+          <Grid container sx={{ height: '100%', width: '100%' }} spacing={3}>
             <Grid item xs={6}>
               <a href="https://reactjs.org/">
                 <svg

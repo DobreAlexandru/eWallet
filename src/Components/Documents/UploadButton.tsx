@@ -13,6 +13,7 @@ import { ChangeEvent } from 'react';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
+import { handleUpload } from '../../Utils/Upload';
 
 const Input = styled('input')({
   display: 'none',
@@ -26,57 +27,7 @@ const UploadButton = ({
   getDB: () => void;
 }) => {
   const { user } = useAuth() as AuthType;
-  const storage = getStorage();
-  const metadata = {
-    contentType: 'application/pdf',
-  };
 
-  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    let file = e.target.files![0];
-    const storageRef = ref(storage, `documents/${user.uid}/` + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-    const docRef = doc(db, 'users', user.uid);
-
-    if (file)
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          let percentage =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-          console.log('Upload is ' + percentage + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
-        },
-        (error) => {
-          switch (error.code) {
-            case 'storage/unauthorized':
-              break;
-            case 'storage/canceled':
-              break;
-            case 'storage/unknown':
-              break;
-          }
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            updateDoc(docRef, {
-              [dbKey]: arrayUnion({
-                name: file.name.slice(0, -4),
-                download: downloadURL,
-              }),
-            });
-            getDB();
-          });
-        },
-      );
-  };
   return (
     <label
       htmlFor="contained-button-file"
@@ -87,7 +38,14 @@ const UploadButton = ({
         id="contained-button-file"
         multiple
         type="file"
-        onChange={uploadFile}
+        onChange={(e) => {
+          const docRef = doc(db, 'users', user.uid);
+          const file = handleUpload(e, 'documents');
+          updateDoc(docRef, {
+            [dbKey]: arrayUnion(file),
+          });
+          getDB();
+        }}
       />
       <IconButton
         color="primary"

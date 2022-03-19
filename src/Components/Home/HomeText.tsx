@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import TextTransition, { presets } from 'react-text-transition';
 

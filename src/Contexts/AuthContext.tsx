@@ -44,7 +44,7 @@ export type AuthType = {
 const AuthContext = createContext<AuthType | undefined>(undefined);
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | any>({});
+  const [user, setUser] = useState<User | any>({}); // ??????
 
   // Triggers when auth state changes
   useEffect(() => {

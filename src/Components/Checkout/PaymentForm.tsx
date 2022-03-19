@@ -5,19 +5,12 @@ import {
   Button,
   CircularProgress,
   Container,
-  Divider,
   IconButton,
   Paper,
   Typography,
 } from '@mui/material';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import {
-  CardElement,
-  PaymentRequestButtonElement,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js';
-import {
-  PaymentRequest,
   Stripe,
   StripeCardElement,
   StripeCardNumberElement,
@@ -26,7 +19,7 @@ import {
 import axios from 'axios';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
@@ -80,9 +73,6 @@ const PaymentForm = () => {
   const key = window.location.hash as string; // Using different window hashes for each item
   const item = items.find((i) => i.key === key) as itemType;
   const date = new Date() as Date; // Generating an expiry date for each ticket, one month from purchase
-  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
-    null,
-  );
 
   date.setMonth(date.getMonth() + 1);
 
@@ -130,27 +120,6 @@ const PaymentForm = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (stripe) {
-  //     const pr = stripe.paymentRequest({
-  //       country: "RO",
-  //       currency: "eur",
-  //       total: {
-  //         label: item.description,
-  //         amount: item.price,
-  //       },
-  //       requestPayerName: true,
-  //       requestPayerEmail: true,
-  //     });
-  //     pr.canMakePayment().then((result) => {
-  //       if (result) {
-  //         setPaymentRequest(pr);
-  //       }
-  //     });
-  //   }
-
-  // }, [stripe]);
-
   return (
     <>
       {!success ? (
@@ -168,13 +137,6 @@ const PaymentForm = () => {
               <Typography component="h1" variant="h5">
                 {item.description}
               </Typography>
-              {/* {paymentRequest && (
-                <>
-                  <Divider sx={{ paddingTop: "20px" }} />
-                  <PaymentRequestButtonElement options={{ paymentRequest }} />
-                  <Divider sx={{ paddingTop: "20px" }} />
-                </>
-              )} */}
               <Box
                 component="form"
                 onSubmit={handleSubmit}
