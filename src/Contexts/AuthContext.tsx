@@ -74,7 +74,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           email: email,
           firstName: firstName,
           lastName: lastName,
-          links: [],
           transportationIDS: [],
           id: {
             birthDate: birthDate,

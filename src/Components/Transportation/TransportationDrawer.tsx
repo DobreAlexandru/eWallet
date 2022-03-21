@@ -9,50 +9,42 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Timestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Timestamp, doc, updateDoc } from 'firebase/firestore';
 import { arrayRemove } from 'firebase/firestore';
-import { DocumentSnapshot } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { useEffect } from 'react';
 import QRCode from 'react-qr-code';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
+import useDoc from '../../Hooks/useDoc';
 
 const drawerBleeding = 56;
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
+type TicketType = {
+  code: string;
+  name: string;
+  expiryDate: Timestamp;
+};
+
 const TransportationDrawer = () => {
   const [open, setOpen] = useState(false); // Open swiper
   const { user } = useAuth() as AuthType;
-  const [links, setLinks] = useState([]); // Tickets already in wallet
 
-  const getDB = async () => {
-    const docRef = doc(db, 'users', user.uid);
-    await getDoc(docRef).then((doc: DocumentSnapshot) =>
-      setLinks(doc.data()!.transportationIDS),
-    );
-  };
-
-  useEffect(() => {
-    if (user.uid !== undefined) {
-      getDB();
-    }
-  }, [user]);
+  const tickets = useDoc('transportationIDS');
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
   // Delete ticket from database and refresh drawer
-  const handleDelete = (item: any) => {
+  const handleDelete = (item: TicketType) => {
     const docRef = doc(db, 'users', user.uid);
     updateDoc(docRef, {
       transportationIDS: arrayRemove(item),
     });
-    getDB();
   };
 
   // Calculate ticket expiration date
@@ -130,7 +122,7 @@ const TransportationDrawer = () => {
             container
             sx={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            {links.map((item: any) => (
+            {tickets.map((item: TicketType) => (
               <Grid
                 item
                 component={motion.div}

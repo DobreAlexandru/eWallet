@@ -43,7 +43,7 @@ const categories = [
 ];
 
 const Documents = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('identificationDocs');
 
   // Change bottom menu active item
   const handleChange = (e: SyntheticEvent, newValue: string) => {

@@ -14,13 +14,13 @@ import {
   Typography,
 } from '@mui/material';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import { arrayRemove, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { DocumentSnapshot } from 'firebase/firestore';
+import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
+import useDoc from '../../Hooks/useDoc';
 import PdfModal from './PdfModal';
 import UploadButton from './UploadButton';
 
@@ -31,7 +31,7 @@ export type DocumentsItemType = {
 
 const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
   const { user } = useAuth() as AuthType;
-  const [data, setData] = useState([]);
+  const data = useDoc(dbKey).reverse();
   const [currentItem, setCurrentItem] = useState({
     name: '',
     download: '',
@@ -44,159 +44,141 @@ const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
 
   const openPopover = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const getDB = async () => {
-    const docRef = doc(db, 'users', user.uid);
-    await getDoc(docRef).then((doc: DocumentSnapshot) => {
-      if (doc.data()![dbKey]) {
-        setData(doc.data()![dbKey].reverse());
-      }
-    });
-  };
-
-  useEffect(() => {
-    getDB();
-    setData([]);
-  }, [dbKey]);
 
   return (
     <>
-      {dbKey && (
-        <>
-          <UploadButton dbKey={dbKey} getDB={getDB} />
-          {data && (
-            <Grid container sx={{ display: 'flex', textAlign: 'center' }}>
-              {data.map((item: DocumentsItemType) => {
-                if (item.download)
-                  return (
-                    <Grid
-                      item
-                      xs={4}
-                      md={3}
-                      key={item.download}
-                      component={motion.div}
-                      layout
-                    >
-                      <IconButton
-                        aria-label="item"
-                        size="small"
+      <UploadButton dbKey={dbKey} />
+      {data && (
+        <Grid container sx={{ display: 'flex', textAlign: 'center' }}>
+          {data.map((item: DocumentsItemType) => {
+            if (item.download)
+              return (
+                <Grid
+                  item
+                  xs={4}
+                  md={3}
+                  key={item.download}
+                  component={motion.div}
+                  layout
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                >
+                  <IconButton
+                    aria-label="item"
+                    size="small"
+                    onClick={() => {
+                      setOpen(true);
+                      setCurrentItem(item);
+                    }}
+                  >
+                    <PictureAsPdfIcon
+                      sx={{
+                        fontSize: 50,
+                        color: '#F1DAC4',
+                        marginRight: '-10px',
+                      }}
+                    />
+                  </IconButton>
+
+                  <Typography variant="body1">
+                    {item.name.length > 8
+                      ? `${item.name.slice(0, 8)}...`
+                      : item.name}
+                  </Typography>
+                  <IconButton
+                    aria-label="options"
+                    size="small"
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                      setAnchorEl(event.currentTarget);
+                      setCurrentItem(item);
+                    }}
+                  >
+                    <MoreHorizIcon
+                      sx={{
+                        fontSize: 20,
+                        color: '#F1DAC4',
+                      }}
+                    />
+                  </IconButton>
+
+                  <Popover
+                    id={id}
+                    open={openPopover}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'center',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <MenuList>
+                      <MenuItem
                         onClick={() => {
-                          setOpen(true);
-                          setCurrentItem(item);
+                          window.open(currentItem.download);
+                          handleClose();
                         }}
                       >
-                        <PictureAsPdfIcon
-                          sx={{
-                            fontSize: 50,
-                            color: '#F1DAC4',
-                            marginRight: '-10px',
-                          }}
-                        />
-                      </IconButton>
-
-                      <Typography variant="body1">
-                        {item.name.length > 8
-                          ? `${item.name.slice(0, 8)}...`
-                          : item.name}
-                      </Typography>
-                      <IconButton
-                        aria-label="options"
-                        size="small"
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>,
-                        ) => {
-                          setAnchorEl(event.currentTarget);
-                          setCurrentItem(item);
+                        <ListItemIcon>
+                          <FileDownloadOutlinedIcon
+                            fontSize="small"
+                            sx={{ color: '#F1DAC4' }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText>Save</ListItemText>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          navigator.share({
+                            title: 'MDN',
+                            text: currentItem.name,
+                            url: currentItem.download,
+                          });
+                          handleClose();
                         }}
                       >
-                        <MoreHorizIcon
-                          sx={{
-                            fontSize: 20,
-                            color: '#F1DAC4',
-                          }}
-                        />
-                      </IconButton>
+                        <ListItemIcon>
+                          <IosShareIcon
+                            fontSize="small"
+                            sx={{ color: '#F1DAC4' }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText>Share</ListItemText>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          const docRef = doc(db, 'users', user.uid);
+                          updateDoc(docRef, {
+                            [dbKey]: arrayRemove(currentItem),
+                          });
 
-                      <Popover
-                        id={id}
-                        open={openPopover}
-                        anchorEl={anchorEl}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                          vertical: 'center',
-                          horizontal: 'left',
+                          handleClose();
                         }}
                       >
-                        <MenuList>
-                          <MenuItem
-                            onClick={() => {
-                              window.open(currentItem.download);
-                              handleClose();
-                            }}
-                          >
-                            <ListItemIcon>
-                              <FileDownloadOutlinedIcon
-                                fontSize="small"
-                                sx={{ color: '#F1DAC4' }}
-                              />
-                            </ListItemIcon>
-                            <ListItemText>Save</ListItemText>
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => {
-                              navigator.share({
-                                title: 'MDN',
-                                text: currentItem.name,
-                                url: currentItem.download,
-                              });
-                              handleClose();
-                            }}
-                          >
-                            <ListItemIcon>
-                              <IosShareIcon
-                                fontSize="small"
-                                sx={{ color: '#F1DAC4' }}
-                              />
-                            </ListItemIcon>
-                            <ListItemText>Share</ListItemText>
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => {
-                              const docRef = doc(db, 'users', user.uid);
-                              updateDoc(docRef, {
-                                [dbKey]: arrayRemove(currentItem),
-                              });
-
-                              getDB();
-                              handleClose();
-                            }}
-                          >
-                            <ListItemIcon>
-                              <DeleteIcon
-                                fontSize="small"
-                                sx={{ color: '#F1DAC4' }}
-                              />
-                            </ListItemIcon>
-                            <ListItemText>Delete</ListItemText>
-                          </MenuItem>
-                        </MenuList>
-                      </Popover>
-                      {currentItem && (
-                        <PdfModal
-                          currentItem={currentItem}
-                          open={open}
-                          setOpen={setOpen}
-                        />
-                      )}
-                    </Grid>
-                  );
-              })}
-            </Grid>
-          )}
-        </>
+                        <ListItemIcon>
+                          <DeleteIcon
+                            fontSize="small"
+                            sx={{ color: '#F1DAC4' }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText>Delete</ListItemText>
+                      </MenuItem>
+                    </MenuList>
+                  </Popover>
+                  {currentItem && (
+                    <PdfModal
+                      currentItem={currentItem}
+                      open={open}
+                      setOpen={setOpen}
+                    />
+                  )}
+                </Grid>
+              );
+          })}
+        </Grid>
       )}
     </>
   );

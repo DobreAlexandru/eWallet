@@ -3,59 +3,72 @@ import { IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
 import { ChangeEvent } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
-import { handleUpload } from '../../Utils/Upload';
+import useUpload from '../../Hooks/useUpload';
 
 const Input = styled('input')({
   display: 'none',
 });
 
-const UploadButton = ({
-  dbKey,
-  getDB,
-}: {
-  dbKey: string;
-  getDB: () => void;
-}) => {
+const UploadButton = ({ dbKey }: { dbKey: string }) => {
+  const [file, setFile] = useState<File | null>(null);
   const { user } = useAuth() as AuthType;
+  const url = useUpload(file, 'application/pdf');
+
+  const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    let file = e.target.files![0];
+
+    if (file) {
+      setFile(file);
+    } else {
+      setFile(null);
+    }
+  };
+
+  useEffect(() => {
+    if (file && url) {
+      const docRef = doc(db, 'users', user.uid);
+
+      updateDoc(docRef, {
+        [dbKey]: arrayUnion({
+          name: file!.name.slice(0, -4),
+          download: url,
+        }),
+      });
+      setFile(null);
+    }
+  }, [url, setFile]);
 
   return (
-    <label
-      htmlFor="contained-button-file"
-      style={{ position: 'absolute', bottom: '10%', right: '10%' }}
-    >
-      <Input
-        accept="application/pdf"
-        id="contained-button-file"
-        multiple
-        type="file"
-        onChange={(e) => {
-          const docRef = doc(db, 'users', user.uid);
-          const file = handleUpload(e, 'documents');
-          updateDoc(docRef, {
-            [dbKey]: arrayUnion(file),
-          });
-          getDB();
-        }}
-      />
-      <IconButton
-        color="primary"
-        aria-label="upload"
-        component="span"
-        disableRipple={true}
+    <>
+      <label
+        htmlFor="contained-button-file"
+        style={{ position: 'absolute', bottom: '10%', right: '10%' }}
       >
-        <UploadFileIcon sx={{ fontSize: 50, color: '#F1DAC4' }} />
-      </IconButton>
-    </label>
+        <Input
+          accept="application/pdf"
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={(e) => {
+            handleUpload(e);
+          }}
+        />
+        <IconButton
+          color="primary"
+          aria-label="upload"
+          component="span"
+          disableRipple={true}
+        >
+          <UploadFileIcon sx={{ fontSize: 50, color: '#F1DAC4' }} />
+        </IconButton>
+      </label>
+    </>
   );
 };
 

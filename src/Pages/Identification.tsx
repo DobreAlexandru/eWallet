@@ -10,33 +10,33 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
+import { useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import QRCode from 'react-qr-code';
 
-import { AuthType, useAuth } from '../Contexts/AuthContext';
-import { db } from '../Firebase/config';
+import useDoc from '../Hooks/useDoc';
 import ProfilePlaceholder from '../Images/ProfilePlaceholder.svg';
 import SignaturePlaceholder from '../Images/SignaturePlaceholder.png';
 
 type DataType = {
   code: string;
-  birthDate: string;
+  birthDate: Timestamp;
   birthPlace: string;
   driving: string;
   expiryDate: string;
   fullName: string;
   gender: string;
   insurance: string;
-  natopnality: string;
+  nationality: string;
   nid: string;
+  image: string;
+  signature: string;
 };
 
 const Identification = () => {
   const [isFlipped, setIsFlipped] = useState(false);
-  const { user } = useAuth() as AuthType;
-  const [data, setData] = useState<DataType | any>({});
+  const data = useDoc('id') as any;
 
   const convertDate = (date: Date) => {
     var dd = String(date.getDate()).padStart(2, '0');
@@ -45,17 +45,6 @@ const Identification = () => {
 
     return mm + '/' + dd + '/' + yyyy;
   };
-
-  const getDB = async () => {
-    const docRef = doc(db, 'users', user.uid);
-    await getDoc(docRef).then((doc: any) => {
-      setData(doc.data().id);
-    });
-  };
-
-  useEffect(() => {
-    getDB();
-  }, [user]);
 
   const handleClick = () => {
     setIsFlipped(!isFlipped);
