@@ -31,7 +31,7 @@ export type DocumentsItemType = {
 
 const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
   const { user } = useAuth() as AuthType;
-  const data = useDoc(dbKey).reverse();
+  const data = useDoc(dbKey);
   const [currentItem, setCurrentItem] = useState({
     name: '',
     download: '',
@@ -150,7 +150,7 @@ const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
                       </MenuItem>
                       <MenuItem
                         onClick={() => {
-                          const docRef = doc(db, 'users', user.uid);
+                          const docRef = doc(db, 'users', user!.uid);
                           updateDoc(docRef, {
                             [dbKey]: arrayRemove(currentItem),
                           });

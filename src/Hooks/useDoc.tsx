@@ -9,16 +9,16 @@ const useDoc = (folder: string) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (user.uid) {
+    if (user!.uid) {
       const unsub = onSnapshot(
-        doc(db, 'users', user.uid),
+        doc(db, 'users', user!.uid),
         (doc: DocumentData) => {
           setData(doc.data()[folder]);
         },
       );
       return () => unsub();
     }
-  }, [folder]);
+  }, [folder, user]);
 
   return data;
 };

@@ -1,61 +1,105 @@
-import { CheckCircle, Delete, Edit } from '@mui/icons-material';
+import { AddCircle, CheckCircle, Delete, Edit } from '@mui/icons-material';
 import {
-  Avatar,
-  Container,
-  Grid,
+  Divider,
   IconButton,
-  List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
   TextField,
-  Typography,
 } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
+import { updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
+import { ChangeEvent } from 'react';
+import { useEffect } from 'react';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
 
-const SettingsItem = ({ label, value }: { label: string; value: string }) => {
+const SettingsItem = ({
+  label,
+  value,
+  dbKey,
+}: {
+  label: string;
+  value: string;
+  dbKey: string;
+}) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const { user } = useAuth() as AuthType;
+  const [input, setInput] = useState(' ');
+
+  const handleCancel = (e: any) => {
+    e.preventDefault();
+    setInput(value);
+    setIsDisabled(true);
+  };
+
+  useEffect(() => {
+    setInput(value);
+  }, [value]);
+
+  const handleEdit = (e: any) => {
+    e.preventDefault();
+    setIsDisabled(false);
+  };
+
+  const handleUpdate = (e: any) => {
+    e.preventDefault();
+    const docRef = doc(db, 'users', user!.uid);
+    updateDoc(docRef, { [dbKey]: input });
+    setIsDisabled(true);
+  };
 
   return (
-    <ListItem
-      secondaryAction={
-        isDisabled ? (
-          <IconButton
-            edge="end"
-            aria-label="delete"
-            onClick={() => setIsDisabled(false)}
-          >
-            <Edit />
-          </IconButton>
-        ) : (
-          <>
+    <>
+      <ListItem
+        secondaryAction={
+          isDisabled ? (
             <IconButton
               edge="end"
               aria-label="delete"
-              onClick={() => setIsDisabled(true)}
+              onClick={handleEdit}
+              disableRipple
             >
-              <CheckCircle />
+              <Edit />
             </IconButton>
-          </>
-        )
-      }
-    >
-      {isDisabled ? (
-        <ListItemText primary={label} secondary={value} />
-      ) : (
+          ) : (
+            <>
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={handleUpdate}
+                disableRipple
+              >
+                <CheckCircle />
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={handleCancel}
+                disableRipple
+              >
+                <AddCircle sx={{ transform: 'rotate(45deg)' }} />
+              </IconButton>
+            </>
+          )
+        }
+      >
         <ListItemText>
-          <TextField required id={label} label={label} />
+          <TextField
+            disabled={isDisabled}
+            required
+            id={label}
+            label={label}
+            value={input}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setInput(e.target.value)
+            }
+          />
         </ListItemText>
-      )}
-    </ListItem>
+      </ListItem>
+      <Divider />
+    </>
   );
 };
 

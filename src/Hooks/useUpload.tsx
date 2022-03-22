@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { AuthType, useAuth } from '../Contexts/AuthContext';
 
-const useStorage = (file: File | null, contentType: string) => {
+const useStorage = (file: File | null, contentType: string, folder: string) => {
   const [url, setUrl] = useState('');
   const storage = getStorage();
 
@@ -20,7 +20,8 @@ const useStorage = (file: File | null, contentType: string) => {
 
   useEffect(() => {
     if (file) {
-      const storageRef = ref(storage, `documents/${user.uid}/` + file!.name);
+      const storageRef = ref(storage, `${folder}/${user!.uid}/` + file.name);
+
       const uploadTask = uploadBytesResumable(storageRef, file!, metadata);
 
       uploadTask.on(

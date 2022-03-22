@@ -18,7 +18,7 @@ const Input = styled('input')({
 const UploadButton = ({ dbKey }: { dbKey: string }) => {
   const [file, setFile] = useState<File | null>(null);
   const { user } = useAuth() as AuthType;
-  const url = useUpload(file, 'application/pdf');
+  const url = useUpload(file, 'application/pdf', 'documents');
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     let file = e.target.files![0];
@@ -32,11 +32,11 @@ const UploadButton = ({ dbKey }: { dbKey: string }) => {
 
   useEffect(() => {
     if (file && url) {
-      const docRef = doc(db, 'users', user.uid);
+      const docRef = doc(db, 'users', user!.uid);
 
       updateDoc(docRef, {
         [dbKey]: arrayUnion({
-          name: file!.name.slice(0, -4),
+          name: file.name.slice(0, -4),
           download: url,
         }),
       });

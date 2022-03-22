@@ -2,6 +2,8 @@ import { CheckCircle, Delete, Edit } from '@mui/icons-material';
 import {
   Avatar,
   Container,
+  Divider,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -18,8 +20,11 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 import SettingsItem from '../Components/Settings/SettingsItem';
+import Signature from '../Components/Settings/Signature';
+import UploadImage from '../Components/Settings/UploadImage';
 import { AuthType, useAuth } from '../Contexts/AuthContext';
 import { db } from '../Firebase/config';
+import useDoc from '../Hooks/useDoc';
 
 type DataType = {
   code: string;
@@ -36,18 +41,14 @@ type DataType = {
 
 const Settings = () => {
   const { user } = useAuth() as AuthType;
-  const [data, setData] = useState<DataType | any>({});
+  const data = useDoc('id') as any;
 
-  const getDB = async () => {
-    const docRef = doc(db, 'users', user.uid);
-    await getDoc(docRef).then((doc: any) => {
-      setData(doc.data().id);
-    });
-  };
-
-  useEffect(() => {
-    getDB();
-  }, [user]);
+  const items = [
+    { label: 'Name', value: data.fullName, dbKey: 'id.fullName' },
+    { label: 'Driving Licence', value: data.driving, dbKey: 'id.driving' },
+    { label: 'Gender', value: data.gender, dbKey: 'id.gender' },
+    { label: 'Health Insurance', value: data.insurance, dbKey: 'id.insurance' },
+  ];
 
   return (
     <Container
@@ -61,11 +62,21 @@ const Settings = () => {
     >
       <Paper sx={{ width: '100%' }} elevation={5}>
         <List>
-          <SettingsItem label="Name" value={data.fullName} />
-          <SettingsItem label="Driving Licence" value={data.driving} />
-          <SettingsItem label="Gender" value={data.gender} />
-          <SettingsItem label="Gender" value={data.gender} />
+          {items.map((item) => {
+            return (
+              <SettingsItem
+                label={item.label}
+                value={item.value}
+                dbKey={item.dbKey}
+                key={item.dbKey}
+              />
+            );
+          })}
         </List>
+        <Grid container sx={{ padding: 2 }}>
+          <Signature />
+          <UploadImage />
+        </Grid>
       </Paper>
     </Container>
   );

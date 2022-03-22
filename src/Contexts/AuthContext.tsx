@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material';
 import {
   Auth,
   User,
@@ -24,7 +25,7 @@ import { auth } from '../Firebase/config';
 import { db } from '../Firebase/config';
 
 export type AuthType = {
-  user: User | any;
+  user: User | null;
   signUp: (
     email: string,
     password: string,
@@ -44,12 +45,15 @@ export type AuthType = {
 const AuthContext = createContext<AuthType | undefined>(undefined);
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | any>({}); // ??????
+  const [user, setUser] = useState<User | null>(null);
+
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Triggers when auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser as User);
+      setIsLoaded(true);
     });
 
     return () => {
@@ -82,17 +86,20 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             driving: '',
             fullName: firstName + ' ' + lastName,
             gender: gender,
-            image: '',
+            image:
+              'https://firebasestorage.googleapis.com/v0/b/digitalizing-public-services.appspot.com/o/placeholders%2Fundraw_profile_pic_ic5t.png?alt=media&token=961e5df4-d49a-4291-81e8-e0c8b429ecef',
             insurance: 'Fully Covered',
             nationality: country,
             nid: nationalID,
-            signature: '',
+            signature:
+              'https://firebasestorage.googleapis.com/v0/b/digitalizing-public-services.appspot.com/o/placeholders%2Fsignature.png?alt=media&token=bcf8ae5e-230b-4dd0-aa82-851ad5ac7e1d',
           },
           identificationDocs: [],
           financeDocs: [],
           propertyDocs: [],
           educationDocs: [],
         });
+
         sendEmailVerification(auth.currentUser as User);
         updateProfile(auth.currentUser as User, {
           displayName: `${firstName} ${lastName}`,
@@ -127,7 +134,18 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         resetPassword,
       }}
     >
-      {children}
+      {isLoaded ? (
+        children
+      ) : (
+        <CircularProgress
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      )}
     </AuthContext.Provider>
   );
 };

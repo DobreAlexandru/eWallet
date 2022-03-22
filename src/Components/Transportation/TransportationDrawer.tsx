@@ -41,7 +41,7 @@ const TransportationDrawer = () => {
   };
   // Delete ticket from database and refresh drawer
   const handleDelete = (item: TicketType) => {
-    const docRef = doc(db, 'users', user.uid);
+    const docRef = doc(db, 'users', user!.uid);
     updateDoc(docRef, {
       transportationIDS: arrayRemove(item),
     });

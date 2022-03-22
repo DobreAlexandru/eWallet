@@ -101,7 +101,7 @@ const PaymentForm = () => {
         );
 
         if (response.data.success) {
-          const docRef = doc(db, 'users', user.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
+          const docRef = doc(db, 'users', user!.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
           const randomID = uuid();
           setUniqueID(randomID);
           updateDoc(docRef, {

@@ -16,8 +16,6 @@ import ReactCardFlip from 'react-card-flip';
 import QRCode from 'react-qr-code';
 
 import useDoc from '../Hooks/useDoc';
-import ProfilePlaceholder from '../Images/ProfilePlaceholder.svg';
-import SignaturePlaceholder from '../Images/SignaturePlaceholder.png';
 
 type DataType = {
   code: string;
@@ -88,11 +86,12 @@ const Identification = () => {
             <img
               style={{
                 width: '150px',
-                border: '5px solid #F1DAC4',
+                height: '150px',
+                border: '2px solid #F1DAC4',
                 borderRadius: '50%',
                 pointerEvents: 'none',
               }}
-              src={data.image ? data.image : ProfilePlaceholder}
+              src={data.image}
             />
             <Grid
               container
@@ -161,12 +160,10 @@ const Identification = () => {
               </Grid>
             </Grid>
             <img
-              src={data.signature ? data.signature : SignaturePlaceholder}
+              src={data.signature}
               style={{
-                width: '150px',
+                width: '80%',
                 pointerEvents: 'none',
-                filter:
-                  'invert(84%) sepia(21%) saturate(350%) hue-rotate(336deg) brightness(106%) contrast(89%)',
               }}
             />
 
