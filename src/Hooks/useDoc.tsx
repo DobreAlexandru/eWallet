@@ -1,4 +1,4 @@
-import { DocumentData, doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 import { AuthType, useAuth } from '../Contexts/AuthContext';
@@ -20,7 +20,7 @@ const useDoc = (folder: string) => {
     }
   }, [folder, user]);
 
-  return data;
+  return data as any; // Exporting as any as this data could take multiple forms, I'm casting the correct type whenever I call the hook.
 };
 
 export default useDoc;

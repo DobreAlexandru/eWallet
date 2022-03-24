@@ -21,17 +21,13 @@ import { useState } from 'react';
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
 import useDoc from '../../Hooks/useDoc';
+import { DocumentsItem } from '../../Types/DocumentsItem';
 import PdfModal from './PdfModal';
 import UploadButton from './UploadButton';
 
-export type DocumentsItemType = {
-  download: string;
-  name: string;
-};
-
-const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
+const DocumentsItems = ({ category }: { category: string }) => {
   const { user } = useAuth() as AuthType;
-  const data = useDoc(dbKey);
+  const data = useDoc(category);
   const [currentItem, setCurrentItem] = useState({
     name: '',
     download: '',
@@ -47,10 +43,10 @@ const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
 
   return (
     <>
-      <UploadButton dbKey={dbKey} />
+      <UploadButton category={category} />
       {data && (
         <Grid container sx={{ display: 'flex', textAlign: 'center' }}>
-          {data.map((item: DocumentsItemType) => {
+          {data.map((item: DocumentsItem) => {
             if (item.download)
               return (
                 <Grid
@@ -79,7 +75,6 @@ const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
                       }}
                     />
                   </IconButton>
-
                   <Typography variant="body1">
                     {item.name.length > 8
                       ? `${item.name.slice(0, 8)}...`
@@ -100,7 +95,6 @@ const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
                       }}
                     />
                   </IconButton>
-
                   <Popover
                     id={id}
                     open={openPopover}
@@ -152,7 +146,7 @@ const DocumentsItems = ({ dbKey }: { dbKey: string }) => {
                         onClick={() => {
                           const docRef = doc(db, 'users', user!.uid);
                           updateDoc(docRef, {
-                            [dbKey]: arrayRemove(currentItem),
+                            [category]: arrayRemove(currentItem),
                           });
 
                           handleClose();

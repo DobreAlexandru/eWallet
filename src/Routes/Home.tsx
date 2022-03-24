@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 
 import HomeText from '../Components/Home/HomeText';
 import TechStack from '../Components/Home/TechStack';

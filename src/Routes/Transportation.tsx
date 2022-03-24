@@ -21,37 +21,28 @@ const categories = [
       <TrainIcon
         sx={{
           fontSize: 125,
-          color: '#F1DAC4',
         }}
       />
     ),
     link: '/checkout',
-    color: '#A69CAC',
     hash: 'singlemetro',
   },
   {
     name: 'Monthly Metro Pass',
-    icon: <TrainOutlinedIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
+    icon: <TrainOutlinedIcon sx={{ fontSize: 125 }} />,
     link: '/checkout',
-    color: '#A69CAC',
     hash: 'monthlymetro',
   },
   {
     name: 'Single Bus Trip',
-    icon: <DirectionsBusIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
+    icon: <DirectionsBusIcon sx={{ fontSize: 125 }} />,
     link: '/checkout',
-    color: '#A69CAC',
     hash: 'singlebus',
   },
   {
     name: 'Monthly Bus Pass',
-    icon: (
-      <DirectionsBusFilledOutlinedIcon
-        sx={{ fontSize: 125, color: '#F1DAC4' }}
-      />
-    ),
+    icon: <DirectionsBusFilledOutlinedIcon sx={{ fontSize: 125 }} />,
     link: '/checkout',
-    color: '#A69CAC',
     hash: 'monthlybus',
   },
 ];
@@ -99,7 +90,6 @@ export default function Transportation() {
           </Reorder.Group>
         </Container>
       </motion.div>
-
       <TransportationDrawer />
     </Root>
   );

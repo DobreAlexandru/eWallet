@@ -1,6 +1,5 @@
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { IconButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { ChangeEvent } from 'react';
@@ -11,11 +10,7 @@ import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
 import useUpload from '../../Hooks/useUpload';
 
-const Input = styled('input')({
-  display: 'none',
-});
-
-const UploadButton = ({ dbKey }: { dbKey: string }) => {
+const UploadButton = ({ category }: { category: string }) => {
   const [file, setFile] = useState<File | null>(null);
   const { user } = useAuth() as AuthType;
   const url = useUpload(file, 'application/pdf', 'documents');
@@ -35,7 +30,7 @@ const UploadButton = ({ dbKey }: { dbKey: string }) => {
       const docRef = doc(db, 'users', user!.uid);
 
       updateDoc(docRef, {
-        [dbKey]: arrayUnion({
+        [category]: arrayUnion({
           name: file.name.slice(0, -4),
           download: url,
         }),
@@ -50,14 +45,14 @@ const UploadButton = ({ dbKey }: { dbKey: string }) => {
         htmlFor="contained-button-file"
         style={{ position: 'absolute', bottom: '10%', right: '10%' }}
       >
-        <Input
+        <input
           accept="application/pdf"
           id="contained-button-file"
-          multiple
           type="file"
           onChange={(e) => {
             handleUpload(e);
           }}
+          style={{ display: 'none' }}
         />
         <IconButton
           color="primary"

@@ -1,19 +1,11 @@
 import { Grid, Typography } from '@mui/material';
-import { SvgIconProps } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Reorder, useMotionValue } from 'framer-motion';
-import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-export type ItemType = {
-  name: string;
-  icon: ReactElement<SvgIconProps>;
-  link: string;
-  color: string;
-  hash: string;
-};
+import { DashboardItemType } from '../../Types/DashboardItem';
 
-const DashboardItem = ({ item }: { item: ItemType }) => {
+const DashboardItem = ({ item }: { item: DashboardItemType }) => {
   const y = useMotionValue(0);
 
   return (
@@ -31,8 +23,21 @@ const DashboardItem = ({ item }: { item: ItemType }) => {
                 cursor: 'grab',
               }}
             >
-              {item.icon}
+              <Link
+                to={{
+                  pathname: item.link,
+                  hash: item.hash,
+                }}
+                style={{
+                  textDecoration: 'none',
+                  color: '#F1DAC4',
+                  textAlign: 'center',
+                }}
+              >
+                {item.icon}
+              </Link>
             </Grid>
+
             <Grid
               item
               xs={12}
@@ -51,19 +56,7 @@ const DashboardItem = ({ item }: { item: ItemType }) => {
                 gutterBottom
                 variant="h6"
               >
-                <Link
-                  to={{
-                    pathname: item.link,
-                    hash: item.hash,
-                  }}
-                  style={{
-                    textDecoration: 'none',
-                    color: '#F1DAC4',
-                    textAlign: 'center',
-                  }}
-                >
-                  {item.name}
-                </Link>
+                {item.name}
               </Typography>
             </Grid>
           </Grid>

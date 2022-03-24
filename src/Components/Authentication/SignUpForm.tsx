@@ -53,6 +53,7 @@ const SignUpForm = () => {
   const handleGenderChange = (event: SelectChangeEvent) => {
     setGender(event.target.value as string);
   };
+
   useEffect(() => {
     const getCountryData = async () => {
       const response = await fetch(

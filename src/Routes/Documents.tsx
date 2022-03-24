@@ -16,6 +16,7 @@ import DocumentsItems from '../Components/Documents/DocumentsItems';
 const categories = [
   <BottomNavigationAction
     label="Identification"
+    key="Identification"
     value="identificationDocs"
     disableRipple={true}
     icon={<FolderSharedOutlined />}
@@ -23,12 +24,14 @@ const categories = [
 
   <BottomNavigationAction
     label="Property"
+    key="Property"
     value="propertyDocs"
     disableRipple={true}
     icon={<MapsHomeWorkOutlined />}
   />,
   <BottomNavigationAction
     label="Finance"
+    key="Finance"
     value="financeDocs"
     disableRipple={true}
     icon={<CalculateOutlined />}
@@ -36,6 +39,7 @@ const categories = [
 
   <BottomNavigationAction
     label="Education"
+    key="Education"
     value="educationDocs"
     disableRipple={true}
     icon={<SchoolSharp />}
@@ -45,7 +49,6 @@ const categories = [
 const Documents = () => {
   const [value, setValue] = useState('identificationDocs');
 
-  // Change bottom menu active item
   const handleChange = (e: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -61,7 +64,7 @@ const Documents = () => {
           paddingTop: '5%',
         }}
       >
-        <DocumentsItems dbKey={value} />
+        <DocumentsItems category={value} />
       </Container>
       <BottomNavigation
         sx={{

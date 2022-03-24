@@ -1,7 +1,7 @@
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import DirectionsBusSharpIcon from '@mui/icons-material/DirectionsBusSharp';
+import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import FingerprintSharpIcon from '@mui/icons-material/FingerprintSharp';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import SnippetFolderOutlinedIcon from '@mui/icons-material/SnippetFolderOutlined';
 import { Container, Grid } from '@mui/material';
 import { Reorder } from 'framer-motion';
 import { useState } from 'react';
@@ -15,34 +15,29 @@ const categories = [
       <FingerprintSharpIcon
         sx={{
           fontSize: 125,
-          color: '#F1DAC4',
         }}
       />
     ),
     hash: '',
     link: '/identification',
-    color: '#A69CAC',
   },
   {
-    name: 'Health',
-    icon: <LocalHospitalIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
+    name: 'Finance',
+    icon: <CalculateOutlinedIcon sx={{ fontSize: 125 }} />,
     hash: '',
-    link: '/health',
-    color: '#A69CAC',
+    link: '/finance',
   },
   {
     name: 'Documents',
-    icon: <AssignmentIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
+    icon: <SnippetFolderOutlinedIcon sx={{ fontSize: 125 }} />,
     hash: '',
     link: '/documents',
-    color: '#A69CAC',
   },
   {
     name: 'Travel',
-    icon: <DirectionsBusSharpIcon sx={{ fontSize: 125, color: '#F1DAC4' }} />,
+    icon: <ConfirmationNumberOutlinedIcon sx={{ fontSize: 125 }} />,
     hash: '',
     link: '/transportation',
-    color: '#A69CAC',
   },
 ];
 

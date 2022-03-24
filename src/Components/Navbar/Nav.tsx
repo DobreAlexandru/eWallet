@@ -1,4 +1,4 @@
-import AppsIcon from '@mui/icons-material/Apps';
+import { Apps, Login, Logout, Settings, Widgets } from '@mui/icons-material';
 import {
   AppBar,
   Box,
@@ -7,6 +7,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Stack,
   Toolbar,
 } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -37,7 +38,6 @@ export default function PrimarySearchAppBar() {
     }
   };
 
-  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -45,7 +45,7 @@ export default function PrimarySearchAppBar() {
         vertical: 'bottom',
         horizontal: 'center',
       }}
-      id={menuId}
+      id="primary-search-account-menu"
       keepMounted
       transformOrigin={{
         vertical: 'bottom',
@@ -81,42 +81,95 @@ export default function PrimarySearchAppBar() {
           <Toolbar>
             <IconButton
               size="large"
-              edge="end"
               aria-label="logo"
               aria-haspopup="true"
               component={Link}
               to="/"
               color="inherit"
-              disableRipple={true}
+              disableRipple
             >
               eWallet
             </IconButton>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: 'flex' }}>
-              {user && (
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="menu"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleMenuOpen}
-                  color="inherit"
-                  disableRipple={true}
-                  component={motion.div}
-                  whileHover={{ rotate: 135 }}
-                >
-                  <AppsIcon />
-                </IconButton>
-              )}
-              {!user && (
+              {user ? (
+                <>
+                  <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      onClick={handleMenuOpen}
+                      color="inherit"
+                      disableRipple
+                      component={motion.div}
+                      whileHover={{ rotate: 135 }}
+                    >
+                      <Apps />
+                    </IconButton>
+                  </Box>
+                  <Stack
+                    direction="row"
+                    spacing={5}
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
+                  >
+                    <motion.div
+                      whileHover={{
+                        scale: 1.5,
+                        transition: { duration: 1 },
+                      }}
+                    >
+                      <IconButton
+                        component={Link}
+                        disableRipple
+                        to="/dashboard"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        onClick={handleMenuClose}
+                      >
+                        <Widgets />
+                      </IconButton>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{
+                        scale: 1.5,
+                        rotate: 360,
+                        transition: { duration: 1 },
+                      }}
+                    >
+                      <IconButton
+                        component={Link}
+                        disableRipple
+                        to="/settings"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        onClick={handleMenuClose}
+                      >
+                        <Settings />
+                      </IconButton>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{
+                        scale: 1.5,
+                        transition: { duration: 1 },
+                      }}
+                    >
+                      <IconButton
+                        disableRipple
+                        onClick={handleLogout}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        <Logout />
+                      </IconButton>
+                    </motion.div>
+                  </Stack>
+                </>
+              ) : (
                 <Button
                   variant="contained"
                   component={Link}
                   to="/signin"
                   style={{ textDecoration: 'none' }}
+                  startIcon={<Login />}
                 >
-                  Sign In
+                  Log In
                 </Button>
               )}
             </Box>

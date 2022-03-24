@@ -5,16 +5,16 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.scss';
 import Nav from './Components/Navbar/Nav';
 import AuthContextProvider from './Contexts/AuthContext';
-import Checkout from './Pages/Checkout';
-import Dashboard from './Pages/Dashboard';
-import Documents from './Pages/Documents';
-import Health from './Pages/Health';
-import Home from './Pages/Home';
-import Identification from './Pages/Identification';
-import Settings from './Pages/Settings';
-import SignIn from './Pages/SignIn';
-import SignUp from './Pages/SignUp';
-import Transportation from './Pages/Transportation';
+import Checkout from './Routes/Checkout';
+import Dashboard from './Routes/Dashboard';
+import Documents from './Routes/Documents';
+import Finance from './Routes/Finance';
+import Home from './Routes/Home';
+import Identification from './Routes/Identification';
+import Settings from './Routes/Settings';
+import SignIn from './Routes/SignIn';
+import SignUp from './Routes/SignUp';
+import Transportation from './Routes/Transportation';
 import ProtectedRoute from './Utils/ProtectedRoute';
 
 function App() {
@@ -45,6 +45,7 @@ function App() {
         <CssBaseline />
         <AuthContextProvider>
           <Nav />
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
@@ -74,10 +75,10 @@ function App() {
               }
             />
             <Route
-              path="/health"
+              path="/finance"
               element={
                 <ProtectedRoute>
-                  <Health />
+                  <Finance />
                 </ProtectedRoute>
               }
             />

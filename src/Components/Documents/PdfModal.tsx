@@ -3,14 +3,14 @@ import { Viewer, Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { Dispatch, SetStateAction } from 'react';
 
-import { DocumentsItemType } from './DocumentsItems';
+import { DocumentsItem } from '../../Types/DocumentsItem';
 
 const PdfModal = ({
   currentItem,
   open,
   setOpen,
 }: {
-  currentItem: DocumentsItemType;
+  currentItem: DocumentsItem;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {

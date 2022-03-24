@@ -26,13 +26,7 @@ import { v4 as uuid } from 'uuid';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
-
-type itemType = {
-  key: string;
-  name: string;
-  price: number;
-  description: string;
-};
+import { CheckoutItem } from '../../Types/CheckoutItem';
 
 const items = [
   {
@@ -71,7 +65,7 @@ const PaymentForm = () => {
   const elements = useElements() as StripeElements;
   const { user } = useAuth() as AuthType;
   const key = window.location.hash as string; // Using different window hashes for each item
-  const item = items.find((i) => i.key === key) as itemType;
+  const item = items.find((i) => i.key === key) as CheckoutItem;
   const date = new Date() as Date; // Generating an expiry date for each ticket, one month from purchase
 
   date.setMonth(date.getMonth() + 1);
@@ -101,13 +95,13 @@ const PaymentForm = () => {
         );
 
         if (response.data.success) {
-          const docRef = doc(db, 'users', user!.uid); // Non-null assertion operator, fixes "Object is possibly null" error. Mark here for later
+          const docRef = doc(db, 'users', user!.uid);
           const randomID = uuid();
           setUniqueID(randomID);
           updateDoc(docRef, {
             transportationIDS: arrayUnion({
               name: item.description,
-              code: randomID,
+              code: uuid(),
               expiryDate: date,
             }),
           });
@@ -201,7 +195,6 @@ const PaymentForm = () => {
                 Thank you for your purchase!
               </Typography>
               <QRCode value={uniqueID} />
-
               <Typography
                 component="h1"
                 variant="h6"
