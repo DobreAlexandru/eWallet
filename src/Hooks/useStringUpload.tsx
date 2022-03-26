@@ -10,7 +10,7 @@ import { AuthType, useAuth } from '../Contexts/AuthContext';
 
 const useStringUpload = (message: string, folder: string) => {
   const storage = getStorage();
-  const [url, setUrl] = useState('') as any;
+  const [url, setUrl] = useState('');
   const { user } = useAuth() as AuthType;
 
   useEffect(() => {

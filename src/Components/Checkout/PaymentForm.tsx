@@ -101,8 +101,17 @@ const PaymentForm = () => {
           updateDoc(docRef, {
             transportationIDS: arrayUnion({
               name: item.description,
-              code: uuid(),
+              code: randomID,
               expiryDate: date,
+            }),
+          });
+          updateDoc(docRef, {
+            transactions: arrayUnion({
+              type: 'expense',
+              amount: item.price / 100,
+              id: randomID,
+              date: new Date(),
+              category: 'Travel',
             }),
           });
           setSuccess(true);

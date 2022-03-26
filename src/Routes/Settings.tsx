@@ -4,22 +4,10 @@ import SettingsItem from '../Components/Settings/SettingsItem';
 import Signature from '../Components/Settings/Signature';
 import UploadImage from '../Components/Settings/UploadImage';
 import useDoc from '../Hooks/useDoc';
-
-type DataType = {
-  code: string;
-  birthDate: string;
-  birthPlace: string;
-  driving: string;
-  expiryDate: string;
-  fullName: string;
-  gender: string;
-  insurance: string;
-  natopnality: string;
-  nid: string;
-};
+import { IdentificationData } from '../Types/IdentificationData';
 
 const Settings = () => {
-  const data = useDoc('id') as any;
+  const data = useDoc('id') as IdentificationData;
 
   const items = [
     { label: 'Name', value: data.fullName, dbKey: 'id.fullName' },

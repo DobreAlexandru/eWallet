@@ -70,3 +70,9 @@ ul {
   border: 1px solid #161b33;
   border-radius: 8px;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

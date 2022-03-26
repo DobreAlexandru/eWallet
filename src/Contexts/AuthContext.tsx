@@ -86,6 +86,8 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             driving: '',
             fullName: firstName + ' ' + lastName,
             gender: gender,
+            bloodType: ' ',
+            allergies: ' ',
             image:
               'https://firebasestorage.googleapis.com/v0/b/digitalizing-public-services.appspot.com/o/placeholders%2Fundraw_profile_pic_ic5t.png?alt=media&token=961e5df4-d49a-4291-81e8-e0c8b429ecef',
             insurance: 'Fully Covered',

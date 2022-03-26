@@ -1,7 +1,9 @@
-import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
-import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
-import FingerprintSharpIcon from '@mui/icons-material/FingerprintSharp';
-import SnippetFolderOutlinedIcon from '@mui/icons-material/SnippetFolderOutlined';
+import {
+  CalculateOutlined,
+  ConfirmationNumberOutlined,
+  FingerprintSharp,
+  SnippetFolderOutlined,
+} from '@mui/icons-material';
 import { Container, Grid } from '@mui/material';
 import { Reorder } from 'framer-motion';
 import { useState } from 'react';
@@ -12,7 +14,7 @@ const categories = [
   {
     name: 'Identification',
     icon: (
-      <FingerprintSharpIcon
+      <FingerprintSharp
         sx={{
           fontSize: 125,
         }}
@@ -23,19 +25,19 @@ const categories = [
   },
   {
     name: 'Finance',
-    icon: <CalculateOutlinedIcon sx={{ fontSize: 125 }} />,
+    icon: <CalculateOutlined sx={{ fontSize: 125 }} />,
     hash: '',
     link: '/finance',
   },
   {
     name: 'Documents',
-    icon: <SnippetFolderOutlinedIcon sx={{ fontSize: 125 }} />,
+    icon: <SnippetFolderOutlined sx={{ fontSize: 125 }} />,
     hash: '',
     link: '/documents',
   },
   {
     name: 'Travel',
-    icon: <ConfirmationNumberOutlinedIcon sx={{ fontSize: 125 }} />,
+    icon: <ConfirmationNumberOutlined sx={{ fontSize: 125 }} />,
     hash: '',
     link: '/transportation',
   },

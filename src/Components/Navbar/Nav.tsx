@@ -53,6 +53,7 @@ export default function PrimarySearchAppBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      transitionDuration={0}
     >
       <MenuItem
         component={Link}
@@ -60,7 +61,7 @@ export default function PrimarySearchAppBar() {
         style={{ textDecoration: 'none' }}
         onClick={handleMenuClose}
       >
-        Dashboard
+        <Widgets /> Dashboard
       </MenuItem>
       <MenuItem
         component={Link}
@@ -68,9 +69,12 @@ export default function PrimarySearchAppBar() {
         style={{ textDecoration: 'none' }}
         onClick={handleMenuClose}
       >
+        <Settings />
         Settings
       </MenuItem>
-      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <Logout /> Log Out
+      </MenuItem>
     </Menu>
   );
 
