@@ -23,9 +23,10 @@ import { motion } from 'framer-motion';
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
 import useDoc from '../../Hooks/useDoc';
+import { FinanceDataItem } from '../../Types/FinanceData';
 import calculateDate from '../../Utils/Helpers/calculateDate';
 
-const icons: any = {
+const icons: { [key: string]: JSX.Element } = {
   Grocheries: <FastfoodOutlined />,
   Household: <HouseOutlined />,
   Vehicle: <DirectionsCarOutlined />,
@@ -40,10 +41,10 @@ const icons: any = {
 };
 
 const Transactions = () => {
-  const data = useDoc('transactions') as any;
+  const data = useDoc('transactions') as Array<FinanceDataItem>;
   const { user } = useAuth() as AuthType;
 
-  const handleDelete = (e: any, item: any) => {
+  const handleDelete = (e: any, item: FinanceDataItem) => {
     e.preventDefault();
     const docRef = doc(db, 'users', user!.uid);
     updateDoc(docRef, {
@@ -65,7 +66,7 @@ const Transactions = () => {
         data
           .slice(0) // Had to make a copy to be able to reverse data
           .reverse()
-          .map((item: any) => {
+          .map((item: FinanceDataItem) => {
             return (
               <Card
                 component={motion.div}
@@ -83,10 +84,10 @@ const Transactions = () => {
                     <Avatar
                       sx={{
                         backgroundColor:
-                          item.type === 'expense' ? 'red' : 'green',
+                          item.type === 'expense' ? '#FE5F55' : '#ABDF75',
                       }}
                     >
-                      {icons[item.category] as any[any]}
+                      {icons[item.category]}
                     </Avatar>
                   }
                   action={
@@ -96,11 +97,11 @@ const Transactions = () => {
                           ? '- € ' + item.amount
                           : '€ ' + item.amount}
                       </Typography>
-                      <IconButton disableRipple>
-                        <Delete
-                          sx={{ color: '#F1DAC4' }}
-                          onClick={(e) => handleDelete(e, item)}
-                        />
+                      <IconButton
+                        disableRipple
+                        onClick={(e) => handleDelete(e, item)}
+                      >
+                        <Delete sx={{ color: '#F1DAC4' }} />
                       </IconButton>
                     </Stack>
                   }

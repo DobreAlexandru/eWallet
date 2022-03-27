@@ -1,16 +1,18 @@
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {
   Box,
+  Button,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
@@ -36,7 +38,7 @@ const initialState = {
   type: 'expense',
   category: '',
   date: new Date(),
-  amount: ' ',
+  amount: 0,
   id: uuid(),
 };
 
@@ -66,29 +68,22 @@ const AddTransaction = () => {
         ...formData,
         type: 'expense',
         category: '',
-        amount: '',
+        amount: 0,
         id: uuid(),
       });
       setAnchorEl(null);
     }
-
     // ADD ELSE ERROR
   };
 
   return (
-    <Box
-      sx={{
-        marginTop: { xs: 0, md: 8 },
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        height: '5%',
-      }}
-    >
-      <Button variant="contained" onClick={(e) => setAnchorEl(e.currentTarget)}>
-        Add Transaction
-      </Button>
+    <Box>
+      <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} disableRipple>
+        <AddCircleOutlineOutlinedIcon
+          sx={{ fontSize: '50px', color: '#F1DAC4' }}
+        />
+      </IconButton>
+
       <Popover
         open={open}
         anchorEl={anchorEl}
@@ -155,7 +150,7 @@ const AddTransaction = () => {
                 fullWidth
                 value={formData.amount}
                 onChange={(e) =>
-                  setFormData({ ...formData, amount: e.target.value })
+                  setFormData({ ...formData, amount: Number(e.target.value) })
                 }
               />
             </Grid>

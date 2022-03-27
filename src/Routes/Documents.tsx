@@ -73,6 +73,7 @@ const Documents = () => {
           bottom: '0',
           borderTopLeftRadius: 8,
           borderTopRightRadius: 8,
+          paddingBottom: '30px',
         }}
         value={value}
         onChange={handleChange}
