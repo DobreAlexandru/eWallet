@@ -15,6 +15,7 @@ import Settings from './Routes/Settings';
 import SignIn from './Routes/SignIn';
 import SignUp from './Routes/SignUp';
 import Transportation from './Routes/Transportation';
+import User from './Routes/User';
 import ProtectedRoute from './Utils/ProtectedRoute';
 
 function App() {
@@ -45,11 +46,11 @@ function App() {
         <CssBaseline />
         <AuthContextProvider>
           <Nav />
-
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/user" element={<User />} />
             <Route
               path="/dashboard"
               element={

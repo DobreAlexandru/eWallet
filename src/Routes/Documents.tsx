@@ -1,7 +1,7 @@
 import {
   CalculateOutlined,
   FolderSharedOutlined,
-  MapsHomeWorkOutlined,
+  LocalHospitalOutlined,
   SchoolSharp,
 } from '@mui/icons-material';
 import {
@@ -23,11 +23,11 @@ const categories = [
   />,
 
   <BottomNavigationAction
-    label="Property"
-    key="Property"
-    value="propertyDocs"
+    label="Health"
+    key="health"
+    value="healthDocs"
     disableRipple={true}
-    icon={<MapsHomeWorkOutlined />}
+    icon={<LocalHospitalOutlined />}
   />,
   <BottomNavigationAction
     label="Finance"

@@ -62,15 +62,15 @@ const SettingsItem = ({
         }
       />
       {isDisabled ? (
-        <IconButton aria-label="delete" onClick={handleEdit} disableRipple>
+        <IconButton onClick={handleEdit} disableRipple>
           <Edit />
         </IconButton>
       ) : (
         <>
-          <IconButton aria-label="delete" onClick={handleUpdate} disableRipple>
+          <IconButton onClick={handleUpdate} disableRipple>
             <CheckCircle />
           </IconButton>
-          <IconButton aria-label="delete" onClick={handleCancel} disableRipple>
+          <IconButton onClick={handleCancel} disableRipple>
             <AddCircle sx={{ transform: 'rotate(45deg)' }} />
           </IconButton>
         </>

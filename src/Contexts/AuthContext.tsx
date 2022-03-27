@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Container } from '@mui/material';
 import {
   Auth,
   User,
@@ -72,6 +72,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     birthDate: Date | null,
     gender: string,
   ) => {
+    const uniqueID = uuid();
     return createUserWithEmailAndPassword(auth, email, password).then(
       (userRecord) => {
         setDoc(doc(db, 'users', userRecord.user.uid), {
@@ -82,12 +83,12 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           id: {
             birthDate: birthDate,
             birthPlace: birthPlace,
-            code: uuid(),
+            code: uniqueID,
             driving: '',
             fullName: firstName + ' ' + lastName,
             gender: gender,
-            bloodType: ' ',
-            allergies: ' ',
+            bloodType: '',
+            allergies: '',
             image:
               'https://firebasestorage.googleapis.com/v0/b/digitalizing-public-services.appspot.com/o/placeholders%2Fundraw_profile_pic_ic5t.png?alt=media&token=961e5df4-d49a-4291-81e8-e0c8b429ecef',
             insurance: 'Fully Covered',
@@ -101,7 +102,9 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           propertyDocs: [],
           educationDocs: [],
         });
-
+        setDoc(doc(db, 'keys', uniqueID), {
+          user: userRecord.user.uid,
+        });
         sendEmailVerification(auth.currentUser as User);
         updateProfile(auth.currentUser as User, {
           displayName: `${firstName} ${lastName}`,
@@ -139,14 +142,18 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       {isLoaded ? (
         children
       ) : (
-        <CircularProgress
+        <Container
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            height: 'calc(100% - 66px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100vw',
+            padding: '0',
           }}
-        />
+        >
+          <CircularProgress />
+        </Container>
       )}
     </AuthContext.Provider>
   );

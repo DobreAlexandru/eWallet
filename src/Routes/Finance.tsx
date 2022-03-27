@@ -1,5 +1,6 @@
 import { Box, Card, Container, Grid, Stack } from '@mui/material';
-import SwipeableViews from 'react-swipeable-views';
+import { useState } from 'react';
+import ReactCardFlip from 'react-card-flip';
 
 import AddTransaction from '../Components/Finance/AddTransaction';
 import FinanceGraph from '../Components/Finance/FinanceGraph';
@@ -7,6 +8,8 @@ import TotalBalance from '../Components/Finance/TotalBalance';
 import Transactions from '../Components/Finance/Transactions';
 
 const Finance = () => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
   return (
     <Container
       sx={{
@@ -57,11 +60,14 @@ const Finance = () => {
               justifyContent: 'center',
             }}
           >
-            <SwipeableViews enableMouseEvents style={{ width: '80%' }}>
-              <FinanceGraph type="income" />
-              <FinanceGraph type="expense" />
-            </SwipeableViews>
+            <Box onClick={() => setIsFlipped(!isFlipped)}>
+              <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+                <FinanceGraph type="income" />
+                <FinanceGraph type="expense" />
+              </ReactCardFlip>
+            </Box>
           </Grid>
+
           <Grid
             item
             xs={12}
