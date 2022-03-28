@@ -32,27 +32,24 @@ type CountryType = {
   name: CountryNameType;
 };
 
+const initialState = {
+  email: '',
+  password: '',
+  firstName: '',
+  lastName: '',
+  country: '',
+  gender: '',
+  nationalID: '',
+  birthPlace: '',
+  birthDate: null as Date | null,
+};
+
 const SignUpForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState('');
-  const [country, setCountry] = useState('');
-  const [gender, setGender] = useState('');
-  const [nationalID, setNationalID] = useState('');
-  const [birthPlace, setBirthPlace] = useState('');
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
   const [countryCodes, setCountryCodes] = useState([]);
   const { signUp } = useAuth() as AuthType;
   const navigate = useNavigate();
-
-  const handleCountryChange = (event: SelectChangeEvent) => {
-    setCountry(event.target.value as string);
-  };
-  const handleGenderChange = (event: SelectChangeEvent) => {
-    setGender(event.target.value as string);
-  };
 
   useEffect(() => {
     const getCountryData = async () => {
@@ -71,30 +68,30 @@ const SignUpForm = () => {
     setError('');
 
     if (
-      !birthDate ||
-      !email ||
-      !password ||
-      !firstName ||
-      !lastName ||
-      !country ||
-      !nationalID ||
-      !birthPlace ||
-      !gender
+      !formData.birthDate ||
+      !formData.email ||
+      !formData.password ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.country ||
+      !formData.nationalID ||
+      !formData.birthPlace ||
+      !formData.gender
     ) {
       setError('Please fill out all fields');
       return;
     }
     try {
       await signUp(
-        email,
-        password,
-        firstName,
-        lastName,
-        country,
-        nationalID,
-        birthPlace,
-        birthDate,
-        gender,
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName,
+        formData.country,
+        formData.nationalID,
+        formData.birthPlace,
+        formData.birthDate,
+        formData.gender,
       );
       navigate('/dashboard');
     } catch (err: any) {
@@ -138,7 +135,7 @@ const SignUpForm = () => {
               label="First Name"
               autoFocus
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setFirstName(e.target.value)
+                setFormData({ ...formData, firstName: e.target.value })
               }
             />
           </Grid>
@@ -151,7 +148,7 @@ const SignUpForm = () => {
               name="lastName"
               autoComplete="family-name"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setLastName(e.target.value)
+                setFormData({ ...formData, lastName: e.target.value })
               }
             />
           </Grid>
@@ -164,7 +161,7 @@ const SignUpForm = () => {
               name="nid"
               autoComplete="national-id"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setNationalID(e.target.value)
+                setFormData({ ...formData, nationalID: e.target.value })
               }
             />
           </Grid>
@@ -177,7 +174,7 @@ const SignUpForm = () => {
               name="email"
               autoComplete="email"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
+                setFormData({ ...formData, email: e.target.value })
               }
             />
           </Grid>
@@ -191,7 +188,7 @@ const SignUpForm = () => {
               id="password"
               autoComplete="new-password"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
+                setFormData({ ...formData, password: e.target.value })
               }
             />
           </Grid>
@@ -203,8 +200,10 @@ const SignUpForm = () => {
                 required
                 label="Nationality"
                 fullWidth
-                value={country}
-                onChange={handleCountryChange}
+                value={formData.country}
+                onChange={(e: SelectChangeEvent) => {
+                  setFormData({ ...formData, country: e.target.value });
+                }}
               >
                 {countryCodes.map((item: CountryType) => {
                   return (
@@ -228,7 +227,7 @@ const SignUpForm = () => {
               name="birthPlace"
               autoComplete="birth-place"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setBirthPlace(e.target.value)
+                setFormData({ ...formData, birthPlace: e.target.value })
               }
             />
           </Grid>
@@ -239,8 +238,10 @@ const SignUpForm = () => {
                 required
                 label="Gender"
                 fullWidth
-                value={gender}
-                onChange={handleGenderChange}
+                value={formData.gender}
+                onChange={(e: SelectChangeEvent) => {
+                  setFormData({ ...formData, gender: e.target.value });
+                }}
               >
                 <MenuItem value="Male" key="M">
                   Male
@@ -258,9 +259,9 @@ const SignUpForm = () => {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 label="Birth Date"
-                value={birthDate}
+                value={formData.birthDate}
                 onChange={(newDate) => {
-                  setBirthDate(newDate);
+                  setFormData({ ...formData, birthDate: newDate });
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />

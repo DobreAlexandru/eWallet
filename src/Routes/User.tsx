@@ -1,7 +1,7 @@
 import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
 import LocalPoliceOutlinedIcon from '@mui/icons-material/LocalPoliceOutlined';
 import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
-import { Container, Stack, Typography } from '@mui/material';
+import { Container, Stack } from '@mui/material';
 
 import UserInfoCard from '../Components/User/UserInfoCard';
 import useUserData from '../Hooks/useUserData';
