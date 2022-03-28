@@ -44,7 +44,10 @@ const Transactions = () => {
   const data = useDoc('transactions') as Array<FinanceDataItem>;
   const { user } = useAuth() as AuthType;
 
-  const handleDelete = (e: any, item: FinanceDataItem) => {
+  const handleDelete = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    item: FinanceDataItem,
+  ) => {
     e.preventDefault();
     const docRef = doc(db, 'users', user!.uid);
     updateDoc(docRef, {

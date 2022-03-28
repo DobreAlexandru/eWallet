@@ -1,4 +1,4 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import useDoc from '../../Hooks/useDoc';
 import { FinanceDataItem } from '../../Types/FinanceData';

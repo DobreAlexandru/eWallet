@@ -50,7 +50,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/user" element={<User />} />
+            <Route path="/user/:user" element={<User />} />
             <Route
               path="/dashboard"
               element={
@@ -100,7 +100,7 @@ function App() {
               }
             />
             <Route
-              path="/checkout"
+              path="/checkout/:item"
               element={
                 <ProtectedRoute>
                   <Checkout />

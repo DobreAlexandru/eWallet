@@ -46,132 +46,135 @@ const DocumentsItems = ({ category }: { category: string }) => {
       <UploadButton category={category} />
       {data && (
         <Grid container sx={{ display: 'flex', textAlign: 'center' }}>
-          {data.map((item: DocumentsItem) => {
-            if (item.download)
-              return (
-                <Grid
-                  item
-                  xs={4}
-                  md={3}
-                  key={item.download}
-                  component={motion.div}
-                  layout
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                >
-                  <IconButton
-                    aria-label="item"
-                    size="small"
-                    onClick={() => {
-                      setOpen(true);
-                      setCurrentItem(item);
-                    }}
+          {data
+            .slice(0)
+            .reverse()
+            .map((item: DocumentsItem) => {
+              if (item.download)
+                return (
+                  <Grid
+                    item
+                    xs={4}
+                    md={3}
+                    key={item.download}
+                    component={motion.div}
+                    layout
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
                   >
-                    <PictureAsPdfIcon
-                      sx={{
-                        fontSize: 50,
-                        color: '#F1DAC4',
-                        marginRight: '-10px',
+                    <IconButton
+                      aria-label="item"
+                      size="small"
+                      onClick={() => {
+                        setOpen(true);
+                        setCurrentItem(item);
                       }}
-                    />
-                  </IconButton>
-                  <Typography variant="body1">
-                    {item.name.length > 8
-                      ? `${item.name.slice(0, 8)}...`
-                      : item.name}
-                  </Typography>
-                  <IconButton
-                    aria-label="options"
-                    size="small"
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                      setAnchorEl(event.currentTarget);
-                      setCurrentItem(item);
-                    }}
-                  >
-                    <MoreHorizIcon
-                      sx={{
-                        fontSize: 20,
-                        color: '#F1DAC4',
+                    >
+                      <PictureAsPdfIcon
+                        sx={{
+                          fontSize: 50,
+                          color: '#F1DAC4',
+                          marginRight: '-10px',
+                        }}
+                      />
+                    </IconButton>
+                    <Typography variant="body1">
+                      {item.name.length > 8
+                        ? `${item.name.slice(0, 8)}...`
+                        : item.name}
+                    </Typography>
+                    <IconButton
+                      aria-label="options"
+                      size="small"
+                      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                        setAnchorEl(event.currentTarget);
+                        setCurrentItem(item);
                       }}
-                    />
-                  </IconButton>
-                  <Popover
-                    id={id}
-                    open={openPopover}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'center',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <MenuList>
-                      <MenuItem
-                        onClick={() => {
-                          window.open(currentItem.download);
-                          handleClose();
+                    >
+                      <MoreHorizIcon
+                        sx={{
+                          fontSize: 20,
+                          color: '#F1DAC4',
                         }}
-                      >
-                        <ListItemIcon>
-                          <FileDownloadOutlinedIcon
-                            fontSize="small"
-                            sx={{ color: '#F1DAC4' }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText>Save</ListItemText>
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          navigator.share({
-                            title: 'MDN',
-                            text: currentItem.name,
-                            url: currentItem.download,
-                          });
-                          handleClose();
-                        }}
-                      >
-                        <ListItemIcon>
-                          <IosShareIcon
-                            fontSize="small"
-                            sx={{ color: '#F1DAC4' }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText>Share</ListItemText>
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          const docRef = doc(db, 'users', user!.uid);
-                          updateDoc(docRef, {
-                            [category]: arrayRemove(currentItem),
-                          });
+                      />
+                    </IconButton>
+                    <Popover
+                      id={id}
+                      open={openPopover}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'center',
+                        horizontal: 'left',
+                      }}
+                    >
+                      <MenuList>
+                        <MenuItem
+                          onClick={() => {
+                            window.open(currentItem.download);
+                            handleClose();
+                          }}
+                        >
+                          <ListItemIcon>
+                            <FileDownloadOutlinedIcon
+                              fontSize="small"
+                              sx={{ color: '#F1DAC4' }}
+                            />
+                          </ListItemIcon>
+                          <ListItemText>Save</ListItemText>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            navigator.share({
+                              title: 'MDN',
+                              text: currentItem.name,
+                              url: currentItem.download,
+                            });
+                            handleClose();
+                          }}
+                        >
+                          <ListItemIcon>
+                            <IosShareIcon
+                              fontSize="small"
+                              sx={{ color: '#F1DAC4' }}
+                            />
+                          </ListItemIcon>
+                          <ListItemText>Share</ListItemText>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            const docRef = doc(db, 'users', user!.uid);
+                            updateDoc(docRef, {
+                              [category]: arrayRemove(currentItem),
+                            });
 
-                          handleClose();
-                        }}
-                      >
-                        <ListItemIcon>
-                          <DeleteIcon
-                            fontSize="small"
-                            sx={{ color: '#F1DAC4' }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText>Delete</ListItemText>
-                      </MenuItem>
-                    </MenuList>
-                  </Popover>
-                  {currentItem && (
-                    <PdfModal
-                      currentItem={currentItem}
-                      open={open}
-                      setOpen={setOpen}
-                    />
-                  )}
-                </Grid>
-              );
-          })}
+                            handleClose();
+                          }}
+                        >
+                          <ListItemIcon>
+                            <DeleteIcon
+                              fontSize="small"
+                              sx={{ color: '#F1DAC4' }}
+                            />
+                          </ListItemIcon>
+                          <ListItemText>Delete</ListItemText>
+                        </MenuItem>
+                      </MenuList>
+                    </Popover>
+                    {currentItem && (
+                      <PdfModal
+                        currentItem={currentItem}
+                        open={open}
+                        setOpen={setOpen}
+                      />
+                    )}
+                  </Grid>
+                );
+            })}
         </Grid>
       )}
     </>

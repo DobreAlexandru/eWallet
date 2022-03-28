@@ -5,5 +5,4 @@ export type DashboardItemType = {
   name: string;
   icon: ReactElement<SvgIconProps>;
   link: string;
-  hash: string;
 };

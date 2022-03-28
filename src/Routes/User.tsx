@@ -2,6 +2,7 @@ import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutl
 import LocalPoliceOutlinedIcon from '@mui/icons-material/LocalPoliceOutlined';
 import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 import { Container, Stack } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 import UserInfoCard from '../Components/User/UserInfoCard';
 import useUserData from '../Hooks/useUserData';
@@ -26,7 +27,7 @@ const healthInfo: { [key: string]: string } = {
 };
 
 const User = () => {
-  const userCode = window.location.hash.substr(1) as string;
+  const userCode = useParams().user as string;
   const data = useUserData(userCode);
 
   return (

@@ -20,25 +20,21 @@ const categories = [
         }}
       />
     ),
-    hash: '',
     link: '/identification',
   },
   {
     name: 'Finance',
     icon: <CalculateOutlined sx={{ fontSize: 125 }} />,
-    hash: '',
     link: '/finance',
   },
   {
     name: 'Documents',
     icon: <SnippetFolderOutlined sx={{ fontSize: 125 }} />,
-    hash: '',
     link: '/documents',
   },
   {
     name: 'Travel',
     icon: <ConfirmationNumberOutlined sx={{ fontSize: 125 }} />,
-    hash: '',
     link: '/transportation',
   },
 ];

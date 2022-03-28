@@ -26,7 +26,6 @@ const DashboardItem = ({ item }: { item: DashboardItemType }) => {
               <Link
                 to={{
                   pathname: item.link,
-                  hash: item.hash,
                 }}
                 style={{
                   textDecoration: 'none',
@@ -37,7 +36,6 @@ const DashboardItem = ({ item }: { item: DashboardItemType }) => {
                 {item.icon}
               </Link>
             </Grid>
-
             <Grid
               item
               xs={12}

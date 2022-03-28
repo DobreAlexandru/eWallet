@@ -54,7 +54,7 @@ const CardBack = ({
       />
 
       <QRCode
-        value={'https://digitalwallet.netlify.app/user#' + data.code}
+        value={'https://digitalwallet.netlify.app/user/' + data.code}
         size={200}
       ></QRCode>
       <CardActions>

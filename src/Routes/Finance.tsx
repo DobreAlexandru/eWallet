@@ -15,7 +15,6 @@ const Finance = () => {
       sx={{
         display: 'flex',
         justifyContent: 'center',
-
         width: '100vw',
         height: 'calc(100vh - 66px)',
         overflowY: 'hidden',

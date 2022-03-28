@@ -60,7 +60,6 @@ const SignUpForm = () => {
       setCountryCodes(data);
     };
     getCountryData();
-    console.log(countryCodes);
   }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

@@ -73,7 +73,6 @@ const AddTransaction = () => {
       });
       setAnchorEl(null);
     }
-    // ADD ELSE ERROR
   };
 
   return (
@@ -83,7 +82,6 @@ const AddTransaction = () => {
           sx={{ fontSize: '50px', color: '#F1DAC4' }}
         />
       </IconButton>
-
       <Popover
         open={open}
         anchorEl={anchorEl}

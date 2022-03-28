@@ -24,26 +24,22 @@ const categories = [
         }}
       />
     ),
-    link: '/checkout',
-    hash: 'singlemetro',
+    link: '/checkout/singlemetro',
   },
   {
     name: 'Monthly Metro Pass',
     icon: <TrainOutlinedIcon sx={{ fontSize: 125 }} />,
-    link: '/checkout',
-    hash: 'monthlymetro',
+    link: '/checkout/monthlymetro',
   },
   {
     name: 'Single Bus Trip',
     icon: <DirectionsBusIcon sx={{ fontSize: 125 }} />,
-    link: '/checkout',
-    hash: 'singlebus',
+    link: '/checkout/singlebus',
   },
   {
     name: 'Monthly Bus Pass',
     icon: <DirectionsBusFilledOutlinedIcon sx={{ fontSize: 125 }} />,
-    link: '/checkout',
-    hash: 'monthlybus',
+    link: '/checkout/monthlybus',
   },
 ];
 

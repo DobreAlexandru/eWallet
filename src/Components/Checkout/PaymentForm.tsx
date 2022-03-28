@@ -22,6 +22,7 @@ import { motion } from 'framer-motion';
 import { FormEvent, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
@@ -30,25 +31,25 @@ import { CheckoutItem } from '../../Types/CheckoutItem';
 
 const items = [
   {
-    key: '#singlemetro',
+    key: 'singlemetro',
     name: 'singleMetro',
     price: 120,
     description: 'Single Metro Trip',
   },
   {
-    key: '#monthlymetro',
+    key: 'monthlymetro',
     name: 'monthlyMetro',
     price: 1200,
     description: 'Monthly Metro Pass',
   },
   {
-    key: '#singlebus',
+    key: 'singlebus',
     name: 'singleBus',
     price: 100,
     description: 'Single Bus Trip',
   },
   {
-    key: '#monthlybus',
+    key: 'monthlybus',
     name: 'monthlyBus',
     price: 1000,
     description: 'Monthly Bus Pass',
@@ -64,11 +65,21 @@ const PaymentForm = () => {
   const stripe = useStripe() as Stripe;
   const elements = useElements() as StripeElements;
   const { user } = useAuth() as AuthType;
-  const key = window.location.hash as string; // Using different window hashes for each item
-  const item = items.find((i) => i.key === key) as CheckoutItem;
-  const date = new Date() as Date; // Generating an expiry date for each ticket, one month from purchase
+  const key = useParams().item;
 
-  date.setMonth(date.getMonth() + 1);
+  const item = items.find((i) => i.key === key) as CheckoutItem;
+  const date = new Date() as Date;
+
+  // Generating an expiry date for each ticket
+  switch (item.name) {
+    case 'monthlyBus':
+    case 'monthlyMetro':
+      date.setMonth(date.getMonth() + 1);
+      break;
+    case 'singleMetro':
+    case 'singleBus':
+      date.setFullYear(date.getFullYear() + 1);
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -98,6 +109,7 @@ const PaymentForm = () => {
           const docRef = doc(db, 'users', user!.uid);
           const randomID = uuid();
           setUniqueID(randomID);
+          // Adding ticket to the tickets panel
           updateDoc(docRef, {
             transportationIDS: arrayUnion({
               name: item.description,
@@ -105,6 +117,7 @@ const PaymentForm = () => {
               expiryDate: date,
             }),
           });
+          // Then adding it to the finance tab as an expense
           updateDoc(docRef, {
             transactions: arrayUnion({
               type: 'expense',
