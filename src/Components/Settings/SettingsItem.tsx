@@ -48,6 +48,8 @@ const SettingsItem = ({
       md={6}
       sx={{
         padding: '20px',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       <TextField

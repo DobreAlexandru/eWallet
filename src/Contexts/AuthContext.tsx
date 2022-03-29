@@ -116,6 +116,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const forgotPassword = (auth: Auth, email: string) => {
     sendPasswordResetEmail(auth, email);
   };
+
   const resetPassword = (user: User, newPassword: string) => {
     updatePassword(user, newPassword);
   };

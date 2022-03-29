@@ -1,6 +1,6 @@
 import { Delete } from '@mui/icons-material';
 import { Box, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
-import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import QRCode from 'react-qr-code';
 
@@ -19,6 +19,7 @@ const Tickets = () => {
     updateDoc(docRef, {
       transportationIDS: arrayRemove(item),
     });
+    deleteDoc(doc(db, 'tickets', item.code));
   };
 
   return (
@@ -63,7 +64,11 @@ const Tickets = () => {
                   {item.name}
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <QRCode value={item.code} />
+                  <QRCode
+                    value={
+                      'https://digitalwallet.netlify.app/tickets/' + item.code
+                    }
+                  />
                 </Box>
                 <Typography
                   sx={{

@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.scss';
 import Nav from './Components/Navbar/Nav';
 import AuthContextProvider from './Contexts/AuthContext';
+import CheckTicket from './Routes/CheckTicket';
 import Checkout from './Routes/Checkout';
 import Dashboard from './Routes/Dashboard';
 import Documents from './Routes/Documents';
@@ -51,6 +52,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/user/:user" element={<User />} />
+            <Route path="/tickets/:ticket" element={<CheckTicket />} />
             <Route
               path="/dashboard"
               element={

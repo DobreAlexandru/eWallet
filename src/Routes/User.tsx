@@ -28,7 +28,7 @@ const healthInfo: { [key: string]: string } = {
 
 const User = () => {
   const userCode = useParams().user as string;
-  const data = useUserData(userCode);
+  const data = useUserData(userCode, 'keys', 'id');
 
   return (
     <Container

@@ -17,7 +17,7 @@ import {
   StripeElements,
 } from '@stripe/stripe-js/types/stripe-js';
 import axios from 'axios';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { FormEvent, useState } from 'react';
 import QRCode from 'react-qr-code';
@@ -32,25 +32,21 @@ import { CheckoutItem } from '../../Types/CheckoutItem';
 const items = [
   {
     key: 'singlemetro',
-    name: 'singleMetro',
     price: 120,
     description: 'Single Metro Trip',
   },
   {
     key: 'monthlymetro',
-    name: 'monthlyMetro',
     price: 1200,
     description: 'Monthly Metro Pass',
   },
   {
     key: 'singlebus',
-    name: 'singleBus',
     price: 100,
     description: 'Single Bus Trip',
   },
   {
     key: 'monthlybus',
-    name: 'monthlyBus',
     price: 1000,
     description: 'Monthly Bus Pass',
   },
@@ -71,13 +67,13 @@ const PaymentForm = () => {
   const date = new Date() as Date;
 
   // Generating an expiry date for each ticket
-  switch (item.name) {
-    case 'monthlyBus':
-    case 'monthlyMetro':
+  switch (item.key) {
+    case 'monthlybus':
+    case 'monthlymetro':
       date.setMonth(date.getMonth() + 1);
       break;
-    case 'singleMetro':
-    case 'singleBus':
+    case 'singlemetro':
+    case 'singlebus':
       date.setFullYear(date.getFullYear() + 1);
   }
 
@@ -116,6 +112,15 @@ const PaymentForm = () => {
               code: randomID,
               expiryDate: date,
             }),
+          });
+          // Then adding it to the tickets database alongside the user that bought it
+          setDoc(doc(db, 'tickets', randomID), {
+            user: user!.uid,
+            ticket: {
+              name: item.description,
+              code: randomID,
+              expiryDate: date,
+            },
           });
           // Then adding it to the finance tab as an expense
           updateDoc(docRef, {

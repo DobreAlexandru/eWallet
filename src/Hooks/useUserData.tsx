@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 
 import { db } from '../Firebase/config';
 
-const useUserData = (userCode: string) => {
+const useUserData = (userCode: string, collection: string, folder: string) => {
   if (userCode) {
     const [data, setData] = useState();
 
     useEffect(() => {
-      const docRef = doc(db, 'keys', userCode);
+      const docRef = doc(db, collection, userCode);
       const getData = async () => {
         const docSnap = await getDoc(docRef);
 
@@ -18,7 +18,7 @@ const useUserData = (userCode: string) => {
               doc(db, 'users', docSnap.data().user),
             );
             if (userData.exists()) {
-              setData(userData.data().id);
+              setData(userData.data()[folder]);
             }
           }
         }
