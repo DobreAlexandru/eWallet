@@ -1,4 +1,6 @@
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 import SwipeLeftIcon from '@mui/icons-material/SwipeLeft';
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Alert,
   Box,
@@ -172,23 +174,19 @@ const PaymentForm = () => {
                 >
                   <CardElement />
                 </Paper>
-                {!loading && (
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    <Typography component="h1" variant="h5" color="#161b33">
-                      Pay € {item.price / 100}
-                    </Typography>
-                  </Button>
-                )}
-                {loading && (
-                  <Box sx={{ paddingTop: '50px' }}>
-                    <CircularProgress />
-                  </Box>
-                )}
+
+                <LoadingButton
+                  type="submit"
+                  fullWidth
+                  endIcon={<CreditCardIcon />}
+                  loading={loading}
+                  loadingPosition="end"
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  <Typography variant="h5">Pay € {item.price / 100}</Typography>
+                </LoadingButton>
+
                 {openError && <Alert severity="error">{error}</Alert>}
               </Box>
             </Box>

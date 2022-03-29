@@ -16,17 +16,22 @@ export const dataByType = (data: Array<FinanceDataItem>) => {
 };
 
 const colors: { [key: string]: string } = {
-  Grocheries: '#880808	',
-  Household: '#8B0000',
-  Vehicle: '#FF3131',
-  Entertainment: '#FF0000',
-  Travel: '#FF4433',
-  Shopping: '#E0115F',
+  Grocheries: '#a6051a',
+  Utilities: '#950417',
+  Medical: '#840414',
+  Personal: '#740312',
+  Gifts: '#63030F',
+  Education: '#53020C',
+  Household: '#42020A',
+  Vehicle: '#AE1E30',
+  Entertainment: '#B73747',
+  Travel: '#9C1B2B',
+  Shopping: '#8B1826',
   Other: '#F1DAC4',
-  Savings: '#228B22',
-  Investment: '#008000	',
-  Salary: '#4F7942',
-  Business: '#7CFC00',
+  Savings: '#009949',
+  Investment: '#008941',
+  Salary: '#007A3A',
+  Business: '#006B33',
 };
 
 // Sort data by category then format for pie chart & add color

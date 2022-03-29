@@ -24,6 +24,11 @@ import { db } from '../../Firebase/config';
 const categories = {
   expense: [
     'Grocheries',
+    'Utilities',
+    'Medical',
+    'Personal',
+    'Gifts',
+    'Education',
     'Household',
     'Vehicle',
     'Entertainment',

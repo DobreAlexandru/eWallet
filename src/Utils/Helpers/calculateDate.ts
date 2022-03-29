@@ -1,5 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
+// Converting from Timestamp to string
 const calculateDate = (timestamp: Timestamp) => {
   const date = timestamp.toDate();
   return (
