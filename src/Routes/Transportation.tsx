@@ -60,32 +60,24 @@ export default function Transportation() {
           },
         }}
       />
-
-      <motion.div
-        initial={{ x: '100vw' }}
-        animate={{ x: 0 }}
-        transition={{ type: 'spring', stiffness: 50 }}
-        style={{ height: '100%', width: '100%' }}
+      <Container
+        sx={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100vw',
+          padding: '0',
+        }}
       >
-        <Container
-          sx={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100vw',
-            padding: '0',
-          }}
-        >
-          <Reorder.Group onReorder={setItems} values={items}>
-            <Grid container>
-              {items.map((item) => {
-                return <DashboardItem key={item.name} item={item} />;
-              })}
-            </Grid>
-          </Reorder.Group>
-        </Container>
-      </motion.div>
+        <Reorder.Group onReorder={setItems} values={items}>
+          <Grid container>
+            {items.map((item) => {
+              return <DashboardItem key={item.name} item={item} />;
+            })}
+          </Grid>
+        </Reorder.Group>
+      </Container>
       <TransportationDrawer />
     </Root>
   );

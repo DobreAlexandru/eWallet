@@ -60,7 +60,6 @@ const TransportationDrawer = () => {
             variant="h6"
             sx={{
               p: 2,
-
               textAlign: 'center',
             }}
           >

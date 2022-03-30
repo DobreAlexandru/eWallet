@@ -105,8 +105,6 @@ export default function PrimarySearchAppBar() {
                       onClick={handleMenuOpen}
                       color="inherit"
                       disableRipple
-                      component={motion.div}
-                      whileHover={{ rotate: 135 }}
                     >
                       <Apps />
                     </IconButton>
@@ -116,25 +114,17 @@ export default function PrimarySearchAppBar() {
                     spacing={5}
                     sx={{ display: { xs: 'none', md: 'flex' } }}
                   >
-                    <motion.div
-                      whileHover={{
-                        scale: 1.5,
-                        transition: { duration: 1 },
-                      }}
+                    <IconButton
+                      component={Link}
+                      disableRipple
+                      to="/dashboard"
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      onClick={handleMenuClose}
                     >
-                      <IconButton
-                        component={Link}
-                        disableRipple
-                        to="/dashboard"
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                        onClick={handleMenuClose}
-                      >
-                        <Widgets />
-                      </IconButton>
-                    </motion.div>
+                      <Widgets />
+                    </IconButton>
                     <motion.div
                       whileHover={{
-                        scale: 1.5,
                         rotate: 360,
                         transition: { duration: 1 },
                       }}
@@ -149,20 +139,13 @@ export default function PrimarySearchAppBar() {
                         <Settings />
                       </IconButton>
                     </motion.div>
-                    <motion.div
-                      whileHover={{
-                        scale: 1.5,
-                        transition: { duration: 1 },
-                      }}
+                    <IconButton
+                      disableRipple
+                      onClick={handleLogout}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
                     >
-                      <IconButton
-                        disableRipple
-                        onClick={handleLogout}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                      >
-                        <Logout />
-                      </IconButton>
-                    </motion.div>
+                      <Logout />
+                    </IconButton>
                   </Stack>
                 </>
               ) : (

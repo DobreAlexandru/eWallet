@@ -10,7 +10,7 @@ import { db } from '../../Firebase/config';
 import useStringUpload from '../../Hooks/useStringUpload';
 
 const Signature = () => {
-  const sigPad = useRef() as MutableRefObject<any>;
+  const sigPad = useRef() as MutableRefObject<SignatureCanvas>;
   const [signature, setSignature] = useState('');
   const { user } = useAuth() as AuthType;
   const url = useStringUpload(signature, 'signatures');

@@ -42,7 +42,6 @@ const CardBack = ({
         }
         avatar={<FingerprintIcon />}
       />
-
       <TextFields
         fields={{
           Gender: data.gender,
@@ -52,7 +51,6 @@ const CardBack = ({
           Allergies: data.allergies,
         }}
       />
-
       <QRCode
         value={'https://digitalwallet.netlify.app/user/' + data.code}
         size={200}

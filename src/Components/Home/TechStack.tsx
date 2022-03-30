@@ -35,7 +35,7 @@ const TechStack = () => {
       }}
     >
       <motion.div
-        className="home-div"
+        className="laptop-container"
         transition={{
           duration: 0.5,
           type: 'tween',
