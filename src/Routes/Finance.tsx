@@ -7,8 +7,12 @@ import FinanceGraph from '../Components/Finance/FinanceGraph';
 import TotalBalance from '../Components/Finance/TotalBalance';
 import Transactions from '../Components/Finance/Transactions';
 
+import useDoc from '../Hooks/useDoc';
+import { FinanceDataItem } from '../Types/FinanceData';
+
 const Finance = () => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const data = useDoc('transactions') as Array<FinanceDataItem>;
 
   return (
     <Container
@@ -45,7 +49,7 @@ const Finance = () => {
                 justifyContent: 'space-around',
               }}
             >
-              <TotalBalance />
+              <TotalBalance data={data} />
               <AddTransaction />
             </Card>
           </Grid>
@@ -61,8 +65,8 @@ const Finance = () => {
           >
             <Box onClick={() => setIsFlipped(!isFlipped)}>
               <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-                <FinanceGraph type="income" />
-                <FinanceGraph type="expense" />
+                <FinanceGraph data={data} type="income" />
+                <FinanceGraph data={data} type="expense" />
               </ReactCardFlip>
             </Box>
           </Grid>
@@ -79,7 +83,7 @@ const Finance = () => {
               justifyContent: 'space-around',
             }}
           >
-            <FinanceGraph type="income" />
+            <FinanceGraph data={data} type="income" />
           </Grid>
           <Grid
             item
@@ -92,10 +96,10 @@ const Finance = () => {
               justifyContent: 'space-around',
             }}
           >
-            <FinanceGraph type="expense" />
+            <FinanceGraph data={data} type="expense" />
           </Grid>
         </Grid>
-        <Transactions />
+        <Transactions data={data} />
       </Stack>
     </Container>
   );

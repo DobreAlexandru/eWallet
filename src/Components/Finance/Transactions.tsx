@@ -40,8 +40,7 @@ const icons: { [key: string]: JSX.Element } = {
   Business: <BusinessOutlined />,
 };
 
-const Transactions = () => {
-  const data = useDoc('transactions') as Array<FinanceDataItem>;
+const Transactions = ({ data }: { data: Array<FinanceDataItem> }) => {
   const { user } = useAuth() as AuthType;
 
   const handleDelete = (

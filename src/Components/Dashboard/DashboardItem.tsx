@@ -33,7 +33,7 @@ const DashboardItem = ({ item }: { item: DashboardItemType }) => {
                   textAlign: 'center',
                 }}
               >
-                {item.icon}
+                <div>{item.icon}</div>
               </Link>
             </Grid>
             <Grid

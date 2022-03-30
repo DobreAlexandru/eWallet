@@ -81,6 +81,7 @@ const PaymentForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
@@ -90,7 +91,6 @@ const PaymentForm = () => {
     });
 
     if (!error) {
-      setLoading(true);
       setOpenError(false);
       try {
         // Hosting node.js app on heroku. Using axios to help communicate between the two
@@ -139,6 +139,7 @@ const PaymentForm = () => {
       } catch (error) {}
     } else {
       setOpenError(true);
+      setLoading(false);
       setError(error.message as string);
     }
   };

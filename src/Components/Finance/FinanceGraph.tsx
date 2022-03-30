@@ -5,9 +5,13 @@ import useDoc from '../../Hooks/useDoc';
 import { FinanceDataItem } from '../../Types/FinanceData';
 import { dataByType, formatData } from '../../Utils/Helpers/filterGraphData';
 
-const FinanceGraph = ({ type }: { type: string }) => {
-  const data = useDoc('transactions') as Array<FinanceDataItem>;
-
+const FinanceGraph = ({
+  data,
+  type,
+}: {
+  data: Array<FinanceDataItem>;
+  type: string;
+}) => {
   return (
     <Box>
       <PieChart

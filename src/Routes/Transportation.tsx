@@ -20,7 +20,7 @@ const categories = [
     icon: (
       <TrainIcon
         sx={{
-          fontSize: 125,
+          fontSize: 100,
         }}
       />
     ),
@@ -28,17 +28,17 @@ const categories = [
   },
   {
     name: 'Monthly Metro Pass',
-    icon: <TrainOutlinedIcon sx={{ fontSize: 125 }} />,
+    icon: <TrainOutlinedIcon sx={{ fontSize: 100 }} />,
     link: '/checkout/monthlymetro',
   },
   {
     name: 'Single Bus Trip',
-    icon: <DirectionsBusIcon sx={{ fontSize: 125 }} />,
+    icon: <DirectionsBusIcon sx={{ fontSize: 100 }} />,
     link: '/checkout/singlebus',
   },
   {
     name: 'Monthly Bus Pass',
-    icon: <DirectionsBusFilledOutlinedIcon sx={{ fontSize: 125 }} />,
+    icon: <DirectionsBusFilledOutlinedIcon sx={{ fontSize: 100 }} />,
     link: '/checkout/monthlybus',
   },
 ];

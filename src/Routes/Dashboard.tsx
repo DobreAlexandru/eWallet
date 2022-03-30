@@ -16,7 +16,7 @@ const categories = [
     icon: (
       <FingerprintSharp
         sx={{
-          fontSize: 125,
+          fontSize: 100,
         }}
       />
     ),
@@ -24,17 +24,17 @@ const categories = [
   },
   {
     name: 'Finance',
-    icon: <CalculateOutlined sx={{ fontSize: 125 }} />,
+    icon: <CalculateOutlined sx={{ fontSize: 100 }} />,
     link: '/finance',
   },
   {
     name: 'Documents',
-    icon: <SnippetFolderOutlined sx={{ fontSize: 125 }} />,
+    icon: <SnippetFolderOutlined sx={{ fontSize: 100 }} />,
     link: '/documents',
   },
   {
     name: 'Travel',
-    icon: <ConfirmationNumberOutlined sx={{ fontSize: 125 }} />,
+    icon: <ConfirmationNumberOutlined sx={{ fontSize: 100 }} />,
     link: '/transportation',
   },
 ];
