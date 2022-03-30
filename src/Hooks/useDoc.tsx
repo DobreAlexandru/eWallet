@@ -18,7 +18,7 @@ const useDoc = (folder: string) => {
       );
       return () => unsub();
     }
-  }, []);
+  }, [folder]);
 
   return data as any; // Exporting as any as this data could take multiple forms, I'm casting the correct type whenever I call the hook.
 };

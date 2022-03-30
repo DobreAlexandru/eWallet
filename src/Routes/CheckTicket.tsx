@@ -47,11 +47,13 @@ const CheckTicket = () => {
               today <= ticket.expiryDate.toDate() ? '#ABDF75' : '#FE5F55'
             }
           />
-          {today <= ticket.expiryDate.toDate() && (
-            <Button onClick={deleteTicket} variant="contained">
-              Validate
-            </Button>
-          )}
+          {today <= ticket.expiryDate.toDate() &&
+            (ticket.name === 'Single Bus Trip' ||
+              ticket.name === 'Single Metro Trip') && (
+              <Button onClick={deleteTicket} variant="contained">
+                Validate
+              </Button>
+            )}
         </Stack>
       )}
       {isValidated && (
