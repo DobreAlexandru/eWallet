@@ -9,7 +9,6 @@ import {
   Toolbar,
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AuthType, useAuth } from '../../Contexts/AuthContext';
@@ -49,7 +48,7 @@ export default function PrimarySearchAppBar() {
                     <IconButton
                       component={Link}
                       disableRipple
-                      to="/dashboard"
+                      to="/menu"
                       style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                       <Widgets />

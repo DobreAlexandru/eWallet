@@ -4,10 +4,9 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import './App.scss';
 import Nav from './Components/Navbar/Nav';
-import AuthContextProvider from './Contexts/AuthContext';
 import CheckTicket from './Routes/CheckTicket';
 import Checkout from './Routes/Checkout';
-import Dashboard from './Routes/Dashboard';
+import Menu from './Routes/Menu';
 import Documents from './Routes/Documents';
 import Finance from './Routes/Finance';
 import Home from './Routes/Home';
@@ -18,6 +17,7 @@ import SignUp from './Routes/SignUp';
 import Transportation from './Routes/Transportation';
 import User from './Routes/User';
 import ProtectedRoute from './Utils/ProtectedRoute';
+import AuthContextProvider from './Contexts/AuthContext';
 
 function App() {
   const theme = createTheme({
@@ -47,17 +47,17 @@ function App() {
         <CssBaseline />
         <AuthContextProvider>
           <Nav />
-          <Routes>
+          <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/user/:user" element={<User />} />
             <Route path="/tickets/:ticket" element={<CheckTicket />} />
             <Route
-              path="/dashboard"
+              path="/menu"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Menu />
                 </ProtectedRoute>
               }
             />

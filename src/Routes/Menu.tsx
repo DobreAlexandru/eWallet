@@ -7,8 +7,7 @@ import {
 import { Container, Grid } from '@mui/material';
 import { Reorder } from 'framer-motion';
 import { useState } from 'react';
-
-import DashboardItem from '../Components/Dashboard/DashboardItem';
+import DashboardItem from '../Components/Menu/DashboardItem';
 
 const categories = [
   {
@@ -39,7 +38,7 @@ const categories = [
   },
 ];
 
-const Dashboard = () => {
+const Menu = () => {
   const [items, setItems] = useState(categories);
 
   return (
@@ -64,4 +63,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Menu;

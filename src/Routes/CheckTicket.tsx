@@ -38,6 +38,9 @@ const CheckTicket = () => {
       {ticket && !isValidated && (
         <Stack spacing={4}>
           <Typography variant="h4" sx={{ textAlign: 'center' }}>
+            {ticket.name}
+          </Typography>
+          <Typography variant="h5" sx={{ textAlign: 'center' }}>
             Ticket is{' '}
             {today <= ticket.expiryDate.toDate() ? 'valid.' : 'not valid.'}
           </Typography>
