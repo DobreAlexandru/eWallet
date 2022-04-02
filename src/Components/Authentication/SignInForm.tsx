@@ -27,7 +27,7 @@ const SignInForm = () => {
 
     try {
       await signIn(email, password);
-      navigate('/dashboard');
+      navigate('/menu');
     } catch (err: any) {
       setError(err.message);
     }
