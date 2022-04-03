@@ -147,7 +147,7 @@ The Finance route is split into 4 smaller components:
 On mobile phones, because of the small screen width, only one pie chart is displayed. To see different data, the user has to tap the chart to turn it around.\
 Here I've had to make use of a couple of helper functions to rearrange the transactions in the database depending on different needs.\
 One such function takes all the data and splits it into two objects, effectively sorting them by the transaction type (income or expense).\
-Another one takes the data and sorts it by categories, then assigns each category a different color, for it to be later displayed on the pie charts.\
+Another one takes the data and sorts it by categories, then assigns each category a different color, for it to be later displayed on the pie charts.
 
 ### Settings
 The settings tab offers the user the possibility to modify personal data, such as the picture they desire to use on their ID card, the signature or basic information.\
@@ -187,7 +187,8 @@ Protected Route, so if the user is not logged in, they don't get access to certa
 - Looking back, I never really needed to use SASS, considering React's in-line styling options and the usage of Material UI.
 ## Bugs
 - Some animations, such as opening popovers, happen twice on Safari 15.4. [issue](https://github.com/mui/material-ui/issues/31380)
-- ## Color Reference
+
+ ## Color Reference
 
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
