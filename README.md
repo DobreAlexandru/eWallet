@@ -60,6 +60,13 @@ Start the server
 ```
 Visit http://localhost:3000/
 
+
+## Usage
+While testing the app out, I suggest using a test account I've set up with files and data already uploaded:\
+Email: `presentation@ewallet.com`\
+Password: `123QWEasd`\
+Stripe offers a test card for the payment form:
+`4242 4242 4242 4242` + any 3 digits + any valid future expiry date.
 ## Built With
 - **React** 
 - **TypeScript** I was looking forward to learn more about TypeScript and felt that this project would be a good start.
@@ -134,5 +141,15 @@ The settings tab offers the user the possibility to modify personal data, such a
 The signature canvas has been made possible using the react-signature-canvas library.\
 The picture upload button is the beforementioned useUpload custom hook I've built, but this time it accepts .png format types.
 ## Limitations
+While I back my idea and hope we'll see something close to this in the near future, for security reasons, I don't believe a normal email & password login would be the most secure way for citizens to store their data.\
+Due to the way I've designed the app, the user can modify any personal data. This option will have to go, and any change the user wishes to make would have to go through a check process first, by building an admin platform.\
+I've tried adding animated transitions between routes, but due to me wishing the app would look just as good on mobile as it does on desktop, I had to decide against it, because the exit animations would give the mobile versions a slow feel to the app.\
+
 ## What I'd change
-- I've built the app before React 18.0 released. Probably one of the first things I'd change if I were to update would be to switch from using uuid to generate unique codes to the useID hook that's included in this new version.\
+- I've built the app before React 18.0 released. Probably one of the first things I'd change if I were to update would be to switch from using uuid to generate unique codes to the useID hook that's included in this new version.
+- The User and Tickets tabs are not hidden behind a protected route. This makes it so that every user could check other users data if they get access to the QR code. While not ideal and quick to fix, I kept it this way because it would make the presentation easier.
+- Stripe also offers the possibility to pay using wallets, such as Apple Pay and Google Pay. I'll consider adding those options as well in the future.
+- In the Finance tab, I'd alter the UI and add another helper function that would allow the user to visualize data based on different months.
+## Bugs
+- Some animations, such as opening popovers, happen twice on Safari 15.4.
+- 
