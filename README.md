@@ -70,9 +70,11 @@ Email: `presentation@ewallet.com`\
 Password: `123QWEasd`\
 Stripe offers a test card for the payment form:
 `4242 4242 4242 4242` + any 3 digits + any valid future expiry date.
+
 ## Built With
 - <a href="https://reactjs.org/" title="React"><img src="https://github.com/get-icon/geticon/raw/master/icons/react.svg" alt="React" width="21px" height="21px"></a>
  **React** 
+- <a href="https://reactrouter.com/" title="React Router"><img src="https://raw.githubusercontent.com/get-icon/geticon/master/icons/react-router.svg" alt="React Router" width="21px" height="21px"></a> **React Router**
 - <a href="https://www.typescriptlang.org/" title="Typescript"><img src="https://github.com/get-icon/geticon/raw/master/icons/typescript-icon.svg" alt="Typescript" width="21px" height="21px"></a>
  **TypeScript** I was looking forward to learn more about TypeScript and felt that this project would be a good start.
 - <a href="https://material-ui.com/" title="Material UI"><img src="https://github.com/get-icon/geticon/raw/master/icons/material-ui.svg" alt="Material UI" width="21px" height="21px"></a>
@@ -83,9 +85,10 @@ Stripe offers a test card for the payment form:
 - <a href="https://stripe.com/" title="Stripe"><img src="https://user-images.githubusercontent.com/95244415/161431642-7c54941c-7fe6-43ac-9089-46d3ec850d76.svg" alt="Stripe" width="21px" height="21px"></a> **Stripe** Implemented a working payment functionality so the user could purchase transportation tickets within the app, while also following the rules and regulations of online payments, thus, keeping the app PCI compliant.
 - <a href="https://vitejs.dev/" title="Vite"><img src="https://github.com/get-icon/geticon/raw/master/icons/vite.svg" alt="Vite" width="21px" height="21px"></a>
  **Vite** I chose Vite as my preferred build tool because of its Hot Module Replacement feature and quick build times.
+- <a href="https://developers.google.com/web/tools/workbox" title="Workbox"><img src="https://github.com/get-icon/geticon/raw/master/icons/workbox-icon.svg" alt="Workbox" width="21px" height="21px"></a> **Workbox** I used Workbox to help me set up the app's PWA functionality.
+
+ 
 ## Thought process
-
-
 
 ### Auth Context
 My entire app is wrapped by a context hook which, with the help of Firebase, provides a user variable.\
