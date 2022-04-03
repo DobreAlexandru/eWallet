@@ -6,8 +6,8 @@
 After being a part of Softbinator Labs 2022, my project is an attempt to showcase the digitalization of a physical wallet.\
 You can view the app live at https://digitalwallet.netlify.app/
 
-## Description
 
+## About The Project
 My main idea while building this project was to prove that most of our important data can be moved from pieces of paper or plastic to the screens of our mobile phones and laptops.\
 Considering that, my thought process started with creating an interface that can hold a digital ID card and important documents such as a birth certificate or a university degree.\
 In the end, I can split my application into 4 main functionalities:
@@ -16,7 +16,7 @@ In the end, I can split my application into 4 main functionalities:
 - **Finance**: keeping track of expenses and income, basically offering the user the capability to keep a better track of their cash
 - **Transportation**: simplifying bus and subway tickets
 
-
+![](https://firebasestorage.googleapis.com/v0/b/digitalizing-public-services.appspot.com/o/InstallShowcase.webp?alt=media&token=83112b19-b439-4c50-af1a-2f2d6c365db1)
 ## Run Locally
 
 Clone the project
