@@ -24,7 +24,7 @@ import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
 import useDoc from '../../Hooks/useDoc';
 import { FinanceDataItem } from '../../Types/FinanceData';
-import calculateDate from '../../Utils/Helpers/calculateDate';
+import calculateDate from '../../Utils/Helpers/timestampToString';
 
 const icons: { [key: string]: JSX.Element } = {
   Grocheries: <FastfoodOutlined />,

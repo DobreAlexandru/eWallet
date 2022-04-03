@@ -8,7 +8,7 @@ import { AuthType, useAuth } from '../../Contexts/AuthContext';
 import { db } from '../../Firebase/config';
 import useDoc from '../../Hooks/useDoc';
 import { Ticket } from '../../Types/TransportationTicket';
-import calculateDate from '../../Utils/Helpers/calculateDate';
+import calculateDate from '../../Utils/Helpers/timestampToString';
 
 const Tickets = () => {
   const { user } = useAuth() as AuthType;

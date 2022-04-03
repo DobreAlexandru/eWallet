@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { IdentificationData } from '../../Types/IdentificationData';
-import calculateDate from '../../Utils/Helpers/calculateDate';
+import calculateDate from '../../Utils/Helpers/timestampToString';
 import TextFields from './TextFields';
 
 const CardFront = ({

@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 
-import useDoc from '../../Hooks/useDoc';
 import { FinanceDataItem } from '../../Types/FinanceData';
 import { calculateBalance } from '../../Utils/Helpers/filterGraphData';
 

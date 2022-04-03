@@ -22,7 +22,6 @@ import TypescriptIcon from '../../Icons/TypescriptIcon';
 import ViteIcon from '../../Icons/ViteIcon';
 import VsCodeIcon from '../../Icons/VsCodeIcon';
 import PWA from '../../Icons/PWA';
-import InstallShowcase from '../../Images/InstallShowcase.webp';
 import PhoneInstall from '../../Images/PhoneInstall.webp';
 
 const TechStack = () => {
@@ -64,24 +63,27 @@ const TechStack = () => {
           className="laptop-box"
         >
           <Grid container sx={{ height: '100%', width: '100%' }} spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <img src={PhoneInstall} style={{ width: '100%' }} />
             </Grid>
-            <Grid item xs={4.5}>
+            <Grid item xs={8}>
               <PWA />
             </Grid>
-            <Grid item xs={4.5}>
+            <Grid item xs={6}>
               <a href="https://reactjs.org/">
                 <ReactIcon />
               </a>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <a href="https://www.typescriptlang.org/">
                 <TypescriptIcon />
               </a>
             </Grid>
             <Grid item xs={4}>
               <HtmlIcon />
+            </Grid>
+            <Grid item xs={4}>
+              <CssIcon />
             </Grid>
             <Grid item xs={4}>
               <a href="https://sass-lang.com/">
