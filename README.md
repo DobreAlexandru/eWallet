@@ -179,7 +179,7 @@ Protected Route, so if the user is not logged in, they don't get access to certa
 - I'd look into caching strategies to make the PWA available offline, so each user would be able to access their info even when not connected to the internet.
 - Looking back, I never really needed to use SASS, considering React's in-line styling options and the usage of Material UI.
 ## Bugs
-- Some animations, such as opening popovers, happen twice on Safari 15.4.
+- Some animations, such as opening popovers, happen twice on Safari 15.4. [issue](https://github.com/mui/material-ui/issues/31380)
 - ## Color Reference
 
 | Color             | Hex                                                                |
