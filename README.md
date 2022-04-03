@@ -147,6 +147,10 @@ The settings tab offers the user the possibility to modify personal data, such a
 The signature canvas has been made possible using the react-signature-canvas library.\
 The picture upload button is the beforementioned useUpload custom hook I've built, but this time it accepts .png format types.
 
+### Navbar
+The Navbar design is consistent across all devices. As it only has 4 actions, I never felt the need to add a hamburger menu on small screen sizes.
+
+
 ### Custom Hooks 
 - useDoc: getting live data from Firestore. The onSnapshot function places a listener on the database, so whenever the data changes, the live updates will be shown on the app.
 - useUpload: uploading to Firebase Cloud Storage and returning the download url. Usually the download url is added to the database after the hook is called.
@@ -173,6 +177,7 @@ Protected Route, so if the user is not logged in, they don't get access to certa
 - The landing page. Instead of presenting my tech stack I'd showcase some of the app's use cases.
 - I'd add more feedback on links and buttons, such as hovering animations or prompts.
 - I'd look into caching strategies to make the PWA available offline, so each user would be able to access their info even when not connected to the internet.
+- Looking back, I never really needed to use SASS, considering React's in-line styling options and the usage of Material UI.
 ## Bugs
 - Some animations, such as opening popovers, happen twice on Safari 15.4.
 - ## Color Reference
