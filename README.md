@@ -86,6 +86,7 @@ Stripe offers a test card for the payment form:
 - <a href="https://vitejs.dev/" title="Vite"><img src="https://github.com/get-icon/geticon/raw/master/icons/vite.svg" alt="Vite" width="21px" height="21px"></a>
  **Vite** I chose Vite as my preferred build tool because of its Hot Module Replacement feature and quick build times.
 - <a href="https://developers.google.com/web/tools/workbox" title="Workbox"><img src="https://github.com/get-icon/geticon/raw/master/icons/workbox-icon.svg" alt="Workbox" width="21px" height="21px"></a> **Workbox** I used Workbox to help me set up the app's PWA functionality.
+- <a href="https://www.netlify.com/" title="Netlify"><img src="https://raw.githubusercontent.com/get-icon/geticon/master/icons/netlify.svg" alt="Netlify" width="21px" height="21px"></a> **Netlify** I'm hosting the app on Netlify.
 
  
 ## Thought process
