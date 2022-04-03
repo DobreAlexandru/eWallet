@@ -71,14 +71,21 @@ Password: `123QWEasd`\
 Stripe offers a test card for the payment form:
 `4242 4242 4242 4242` + any 3 digits + any valid future expiry date.
 ## Built With
-- **React** 
-- **TypeScript** I was looking forward to learn more about TypeScript and felt that this project would be a good start.
-- **Material UI** My preferred UI component library for this project. 
-- **Framer Motion** Framer helped me create most of this app's animations. Reordering the items in the dashboard is a good use case for Framer Motion.
-- **Firebase** I use Firebase as my go-to BaaS. In this project I've used features such as Authentication, Cloud Storage and Firestore. Firebase is at the core of this app, allowing me to be able to store users and their data.
-- **Stripe** Implemented a working payment functionality so the user could purchase transportation tickets within the app, while also following the rules and regulations of online payments, thus, keeping the app PCI compliant.
-- **Vite** I chose Vite as my preferred build tool because of its Hot Module Replacement feature and quick build times.
+- <a href="https://reactjs.org/" title="React"><img src="https://github.com/get-icon/geticon/raw/master/icons/react.svg" alt="React" width="21px" height="21px"></a>
+ **React** 
+- <a href="https://www.typescriptlang.org/" title="Typescript"><img src="https://github.com/get-icon/geticon/raw/master/icons/typescript-icon.svg" alt="Typescript" width="21px" height="21px"></a>
+ **TypeScript** I was looking forward to learn more about TypeScript and felt that this project would be a good start.
+- <a href="https://material-ui.com/" title="Material UI"><img src="https://github.com/get-icon/geticon/raw/master/icons/material-ui.svg" alt="Material UI" width="21px" height="21px"></a>
+ **Material UI** My preferred UI component library for this project. 
+- <a href="https://www.framer.com/motion/" title="Framer"><img src="https://user-images.githubusercontent.com/95244415/161431694-6163bccf-1489-4aff-b61e-6ed28611bf71.svg" alt="Framer" width="21px" height="21px"></a> **Framer Motion** Framer helped me create most of this app's animations. Reordering the items in the dashboard is a good use case for Framer Motion.
+- <a href="https://www.firebase.com/" title="Firebase"><img src="https://github.com/get-icon/geticon/raw/master/icons/firebase.svg" alt="Firebase" width="21px" height="21px"></a>
+ **Firebase** I use Firebase as my go-to BaaS. In this project I've used features such as Authentication, Cloud Storage and Firestore. Firebase is at the core of this app, allowing me to be able to store users and their data.
+- <a href="https://stripe.com/" title="Stripe"><img src="https://user-images.githubusercontent.com/95244415/161431642-7c54941c-7fe6-43ac-9089-46d3ec850d76.svg" alt="Stripe" width="21px" height="21px"></a> **Stripe** Implemented a working payment functionality so the user could purchase transportation tickets within the app, while also following the rules and regulations of online payments, thus, keeping the app PCI compliant.
+- <a href="https://vitejs.dev/" title="Vite"><img src="https://github.com/get-icon/geticon/raw/master/icons/vite.svg" alt="Vite" width="21px" height="21px"></a>
+ **Vite** I chose Vite as my preferred build tool because of its Hot Module Replacement feature and quick build times.
 ## Thought process
+
+
 
 ### Auth Context
 My entire app is wrapped by a context hook which, with the help of Firebase, provides a user variable.\
