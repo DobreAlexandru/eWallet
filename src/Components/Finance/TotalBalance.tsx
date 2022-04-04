@@ -5,7 +5,9 @@ import { calculateBalance } from '../../Utils/Helpers/filterGraphData';
 
 const TotalBalance = ({ data }: { data: Array<FinanceDataItem> }) => {
   return (
-    <Typography variant="h5">Balance: € {calculateBalance(data)}</Typography>
+    <Typography variant="h5">
+      Balance: € {data ? calculateBalance(data) : '0'}
+    </Typography>
   );
 };
 

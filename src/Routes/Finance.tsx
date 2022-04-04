@@ -70,7 +70,6 @@ const Finance = () => {
               </ReactCardFlip>
             </Box>
           </Grid>
-
           <Grid
             item
             xs={12}
