@@ -92,7 +92,7 @@ const SignUpForm = () => {
         formData.birthDate,
         formData.gender,
       );
-      navigate('/dashboard');
+      navigate('/menu');
     } catch (err: any) {
       setError(err.message);
     }
