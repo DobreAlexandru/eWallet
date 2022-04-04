@@ -70,9 +70,11 @@ Email: `presentation@ewallet.com`\
 Password: `123QWEasd`\
 Stripe offers a test card for the payment form:
 `4242 4242 4242 4242` + any 3 digits + any valid future expiry date.
+
 ## Built With
 - <a href="https://reactjs.org/" title="React"><img src="https://github.com/get-icon/geticon/raw/master/icons/react.svg" alt="React" width="21px" height="21px"></a>
  **React** 
+- <a href="https://reactrouter.com/" title="React Router"><img src="https://raw.githubusercontent.com/get-icon/geticon/master/icons/react-router.svg" alt="React Router" width="21px" height="21px"></a> **React Router**
 - <a href="https://www.typescriptlang.org/" title="Typescript"><img src="https://github.com/get-icon/geticon/raw/master/icons/typescript-icon.svg" alt="Typescript" width="21px" height="21px"></a>
  **TypeScript** I was looking forward to learn more about TypeScript and felt that this project would be a good start.
 - <a href="https://material-ui.com/" title="Material UI"><img src="https://github.com/get-icon/geticon/raw/master/icons/material-ui.svg" alt="Material UI" width="21px" height="21px"></a>
@@ -83,9 +85,11 @@ Stripe offers a test card for the payment form:
 - <a href="https://stripe.com/" title="Stripe"><img src="https://user-images.githubusercontent.com/95244415/161431642-7c54941c-7fe6-43ac-9089-46d3ec850d76.svg" alt="Stripe" width="21px" height="21px"></a> **Stripe** Implemented a working payment functionality so the user could purchase transportation tickets within the app, while also following the rules and regulations of online payments, thus, keeping the app PCI compliant.
 - <a href="https://vitejs.dev/" title="Vite"><img src="https://github.com/get-icon/geticon/raw/master/icons/vite.svg" alt="Vite" width="21px" height="21px"></a>
  **Vite** I chose Vite as my preferred build tool because of its Hot Module Replacement feature and quick build times.
+- <a href="https://developers.google.com/web/tools/workbox" title="Workbox"><img src="https://github.com/get-icon/geticon/raw/master/icons/workbox-icon.svg" alt="Workbox" width="21px" height="21px"></a> **Workbox** I used Workbox to help me set up the app's PWA functionality.
+- <a href="https://www.netlify.com/" title="Netlify"><img src="https://raw.githubusercontent.com/get-icon/geticon/master/icons/netlify.svg" alt="Netlify" width="21px" height="21px"></a> **Netlify** I'm hosting the app on Netlify.
+
+ 
 ## Thought process
-
-
 
 ### Auth Context
 My entire app is wrapped by a context hook which, with the help of Firebase, provides a user variable.\
@@ -147,7 +151,7 @@ The Finance route is split into 4 smaller components:
 On mobile phones, because of the small screen width, only one pie chart is displayed. To see different data, the user has to tap the chart to turn it around.\
 Here I've had to make use of a couple of helper functions to rearrange the transactions in the database depending on different needs.\
 One such function takes all the data and splits it into two objects, effectively sorting them by the transaction type (income or expense).\
-Another one takes the data and sorts it by categories, then assigns each category a different color, for it to be later displayed on the pie charts.\
+Another one takes the data and sorts it by categories, then assigns each category a different color, for it to be later displayed on the pie charts.
 
 ### Settings
 The settings tab offers the user the possibility to modify personal data, such as the picture they desire to use on their ID card, the signature or basic information.\
@@ -187,7 +191,8 @@ Protected Route, so if the user is not logged in, they don't get access to certa
 - Looking back, I never really needed to use SASS, considering React's in-line styling options and the usage of Material UI.
 ## Bugs
 - Some animations, such as opening popovers, happen twice on Safari 15.4. [issue](https://github.com/mui/material-ui/issues/31380)
-- ## Color Reference
+
+ ## Color Reference
 
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
